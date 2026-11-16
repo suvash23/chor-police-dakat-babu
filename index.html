@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="html-root">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1227,12 +1227,15 @@
         <button id="btn-theme-switcher" class="sketch-btn" title="Switch Khata Theme">
           <span class="btn-icon" id="theme-icon">📜</span> <span id="theme-name-label">Khata</span>
         </button>
-        <button id="btn-toggle-sound" class="sketch-btn" title="Toggle Sound FX">
-          <span class="btn-icon" id="sound-icon">🔊</span> Sound
+        <button id="btn-lang-toggle" class="sketch-btn" title="Switch Language / ভাষা পরিবর্তন" style="font-size:1.1rem; padding: 5px 12px;">
+          <span id="lang-toggle-label">🇧🇩 বাংলা</span>
         </button>
-        <button id="btn-rules" class="sketch-btn">📖 Rules</button>
-        <button id="btn-settings" class="sketch-btn">⚙️ Settings</button>
-        <button id="btn-reset-game" class="sketch-btn danger">↺ New Game</button>
+        <button id="btn-toggle-sound" class="sketch-btn" title="Toggle Sound FX">
+          <span class="btn-icon" id="sound-icon">🔊</span> <span data-i18n="sound">Sound</span>
+        </button>
+        <button id="btn-rules" class="sketch-btn" data-i18n-btn="rules">📖 Rules</button>
+        <button id="btn-settings" class="sketch-btn" data-i18n-btn="settings">⚙️ Settings</button>
+        <button id="btn-reset-game" class="sketch-btn danger" data-i18n-btn="newGame">↺ New Game</button>
       </div>
     </div>
 
@@ -1665,6 +1668,175 @@
     }
 
     /* =================================================================
+       TRANSLATIONS (Bilingual: English ↔ Bangla)
+       ================================================================= */
+    const TRANSLATIONS = {
+      // --- Toolbar & Header ---
+      singlePlayerMode:   { en: '🤖 Single-Player',      bn: '🤖 একক খেলোয়াড়' },
+      passPlayMode:       { en: '👥 Pass-and-Play',       bn: '👥 পাস-অ্যান্ড-প্লে' },
+      roundLabel:         { en: 'Round',                  bn: 'রাউন্ড' },
+      sound:              { en: 'Sound',                  bn: 'শব্দ' },
+      rules:              { en: '📖 Rules',               bn: '📖 নিয়ম' },
+      settings:           { en: '⚙️ Settings',           bn: '⚙️ সেটিংস' },
+      newGame:            { en: '↺ New Game',             bn: '↺ নতুন খেলা' },
+      subtitle:           { en: 'Traditional Folded Chit Guessing Game • চোর পুলিশ ডাকাত বাবু', bn: 'চোর পুলিশ ডাকাত বাবু • ঐতিহ্যবাহী চিরকুট অনুমান খেলা' },
+
+      // --- PWA Install banner ---
+      installMsg:         { en: '📲 Install as App on your home screen for offline play!', bn: '📲 অফলাইনে খেলতে হোম স্ক্রিনে অ্যাপ হিসেবে ইন্সটল করুন!' },
+      install:            { en: 'Install',                bn: 'ইন্সটল' },
+
+      // --- Announcement / game flow ---
+      dealBtn:            { en: '🃏 Deal & Shuffle',      bn: '🃏 ভাঁজ ও বিতরণ' },
+      nextRoundBtn:       { en: 'Next Round',             bn: 'পরবর্তী রাউন্ড' },
+      viewResults:        { en: '🏆 View Final Results',  bn: '🏆 চূড়ান্ত ফলাফল দেখুন' },
+      round:              { en: 'Round',                  bn: 'রাউন্ড' },
+      of:                 { en: 'of',                     bn: '/' },
+      dealSub:            { en: 'Click "Deal & Shuffle Chits" to fold and shuffle the paper chits.', bn: '"ভাঁজ ও বিতরণ" বোতাম চাপুন। কাগজের চিরকুট ভাঁজ করে মেশানো হবে।' },
+      shufflingMain:      { en: 'Shuffling & Folding Chits...', bn: 'চিরকুট মেশানো ও ভাঁজ হচ্ছে...' },
+      shufflingSub:       { en: 'The 4 folded chits are being mixed on the notebook...', bn: 'খাতার উপর ৪টি ভাঁজ করা চিরকুট মেশানো হচ্ছে...' },
+
+      // --- Babu announcement ---
+      babuCommands:       { en: 'commands',               bn: 'আদেশ দিচ্ছেন' },
+      babuFindOut:        { en: 'find out who the',       bn: 'খুঁজে বের করো কে সেই' },
+      babuIs:             { en: 'is!',                    bn: '!' },
+      anonBabu:           { en: 'Anonymous Babu',         bn: 'অজানা বাবু' },
+      anonBabuCmd:        { en: 'commands from the shadows:', bn: 'আড়াল থেকে আদেশ দিচ্ছেন:' },
+      anonBabuSub:        { en: 'Babu is hidden among the bots! Police must choose between all 3 suspects.', bn: 'বাবু লুকিয়ে আছেন! পুলিশকে ৩ জনের মধ্যে থেকে বেছে নিতে হবে।' },
+      policeFindSub:      { en: 'Police must choose between the 2 remaining hidden players!', bn: 'পুলিশকে বাকি ২ জন লুকানো খেলোয়াড়ের মধ্যে থেকে বেছে নিতে হবে!' },
+      policeLabel:        { en: 'Police',                 bn: 'পুলিশ' },
+
+      // --- Guessing phase ---
+      policeInspecting:   { en: 'is interrogating suspects...', bn: 'সন্দেহভাজনদের জিজ্ঞাসাবাদ করছে...' },
+      botThinkingSub:     { en: 'Simulating bot thinking (1.5s)...', bn: 'বট ভাবছে (১.৫ সেকেন্ড)...' },
+      clickAccuse:        { en: ', click on a suspect\'s slot to accuse them!', bn: ', কোনো সন্দেহভাজনের ঘরে ক্লিক করে অভিযোগ করো!' },
+      hideBabuSub:        { en: 'Babu is also disguised! Pick the', bn: 'বাবুও ছদ্মবেশে আছেন! খুঁজে বের করো' },
+      hideBabuSub2:       { en: 'among the 3 candidates.', bn: 'তিনজন সন্দেহভাজনের মধ্য থেকে।' },
+      lookClosely:        { en: 'Look closely at their faces. Who is the', bn: 'ভালো করে দেখো। কে সেই' },
+      suspectHint:        { en: 'Suspect?',              bn: 'সন্দেহভাজন?' },
+
+      // --- Result stamps ---
+      stampCaught:        { en: '🚨 CAUGHT! 🚨',          bn: '🚨 ধরা পড়েছে! 🚨' },
+      stampInnocent:      { en: '❌ INNOCENT! ❌',         bn: '❌ নির্দোষ! ❌' },
+      stampEscaped:       { en: '🏃 ESCAPED! 🏃',          bn: '🏃 বেঁচে গেল! 🏃' },
+      wrongPick:          { en: 'Wrong Pick',              bn: 'ভুল পছন্দ' },
+      bonusLabel:         { en: '+800 Bonus',              bn: '+৮০০ বোনাস' },
+
+      // --- Result announcements ---
+      correctGuess:       { en: 'Correct Guess!',          bn: 'সঠিক অনুমান!' },
+      caughtThe:          { en: 'caught',                  bn: 'ধরে ফেলেছে' },
+      policeSecured:      { en: 'Police secured their 800 points! All players retain their chits\' points.', bn: 'পুলিশ ৮০০ পয়েন্ট পেয়েছে! সবাই তাদের চিরকুটের পয়েন্ট পাবে।' },
+      wrongGuess:         { en: 'Wrong Guess!',            bn: 'ভুল অনুমান!' },
+      wasNotThe:          { en: 'was NOT the',             bn: 'সেই' },
+      wasNotThe2:         { en: '',                        bn: 'ছিল না!' },
+      escaped:            { en: 'escaped! Police gets',    bn: 'বেঁচে গেল! পুলিশ পাচ্ছে' },
+      zeropts:            { en: '0 pts',                   bn: '০ পয়েন্ট' },
+      steals:             { en: 'steals the',              bn: 'নিয়ে নিল' },
+      pts800:             { en: '800 pts!',                bn: '৮০০ পয়েন্ট!' },
+
+      // --- Scoreboard ---
+      scoreSheet:         { en: '📊 Khata Score Sheet (হিসাব খাতা)', bn: '📊 হিসাব খাতা (Score Sheet)' },
+      targetLabel:        { en: 'Target:',                bn: 'লক্ষ্য:' },
+      rounds:             { en: 'Rounds',                 bn: 'রাউন্ড' },
+      total:              { en: 'Total',                  bn: 'মোট' },
+      roundCol:           { en: 'Round',                  bn: 'রাউন্ড' },
+
+      // --- Player names ---
+      youPlayer1:         { en: 'You (Player 1)',         bn: 'আপনি (খেলোয়াড় ১)' },
+      player1:            { en: 'Player 1',               bn: 'খেলোয়াড় ১' },
+      player2:            { en: 'Player 2',               bn: 'খেলোয়াড় ২' },
+      player3:            { en: 'Player 3',               bn: 'খেলোয়াড় ৩' },
+      player4:            { en: 'Player 4',               bn: 'খেলোয়াড় ৪' },
+      bot1:               { en: 'Bot 1',                  bn: 'বট ১' },
+      bot2:               { en: 'Bot 2',                  bn: 'বট ২' },
+      bot3:               { en: 'Bot 3',                  bn: 'বট ৩' },
+
+      // --- pts suffix ---
+      pts:                { en: 'pts',                    bn: 'পয়েন্ট' },
+      totalLabel:         { en: 'Total:',                 bn: 'মোট:' },
+
+      // --- Settings modal ---
+      settingsTitle:      { en: '⚙️ Game Settings',      bn: '⚙️ খেলার সেটিংস' },
+      gameModeLabel:      { en: 'Game Mode:',             bn: 'খেলার ধরন:' },
+      modeOptionSingle:   { en: 'Single-Player (vs 3 Bots)', bn: 'একক খেলোয়াড় (৩ বটের বিরুদ্ধে)' },
+      modeOptionPass:     { en: 'Pass-and-Play (4 Human Players)', bn: 'পাস-অ্যান্ড-প্লে (৪ জন মানুষ)' },
+      targetRoundsLabel:  { en: 'Target Rounds:',        bn: 'মোট রাউন্ড:' },
+      round5:             { en: '5 Rounds',               bn: '৫ রাউন্ড' },
+      round10:            { en: '10 Rounds',              bn: '১০ রাউন্ড' },
+      round15:            { en: '15 Rounds',              bn: '১৫ রাউন্ড' },
+      chorPointsLabel:    { en: 'Chor Points:',           bn: 'চোরের পয়েন্ট:' },
+      chorPts0:           { en: '0 Pts (Classic)',        bn: '০ পয়েন্ট (ক্লাসিক)' },
+      chorPts400:         { en: '400 Pts',                bn: '৪০০ পয়েন্ট' },
+      alwaysPoliceLabel:  { en: 'Player 1 Always Police:', bn: 'খেলোয়াড় ১ সবসময় পুলিশ:' },
+      hideBabuLabel:      { en: 'Don\'t Reveal Saheb/Babu:', bn: 'সাহেব/বাবু গোপন রাখো:' },
+      toggleOn:           { en: 'On',                    bn: 'চালু' },
+      toggleOff:          { en: 'Off',                   bn: 'বন্ধ' },
+      settingsNote:       { en: '* Note: Applying changes will restart the match with the new configuration.', bn: '* নোট: পরিবর্তন প্রয়োগ করলে নতুন কনফিগারেশনে ম্যাচ পুনরায় শুরু হবে।' },
+      saveBtn:            { en: 'Save & Start Match',    bn: 'সংরক্ষণ করুন ও ম্যাচ শুরু করুন' },
+      cancelBtn:          { en: 'Cancel',                bn: 'বাতিল' },
+
+      // --- Rules modal ---
+      rulesTitle:         { en: '📖 Traditional Rules & Points', bn: '📖 ঐতিহ্যবাহী নিয়ম ও পয়েন্ট' },
+      rulesRolesHeader:   { en: 'Roles & Traditional Values:', bn: 'ভূমিকা ও পয়েন্ট:' },
+      rulesBabu:          { en: '👑 Babu (Saheb) - 1000 Pts: Master role. Always safe, commands Police.', bn: '👑 বাবু (সাহেব) - ১০০০ পয়েন্ট: কর্তা ভূমিকা। সবসময় নিরাপদ, পুলিশকে নির্দেশ দেন।' },
+      rulesPolice:        { en: '👮 Police - 800 Pts: Must identify who is the chosen suspect.', bn: '👮 পুলিশ - ৮০০ পয়েন্ট: সন্দেহভাজনকে চিহ্নিত করতে হবে।' },
+      rulesDakat:         { en: '🦹 Dakat - 600 Pts: Dangerous robber hiding in disguise.', bn: '🦹 ডাকাত - ৬০০ পয়েন্ট: ছদ্মবেশে লুকিয়ে থাকা বিপজ্জনক ডাকাত।' },
+      rulesChor:          { en: '🦹 Chor - 0 Pts (or 400 Pts): Sneaky thief hiding in disguise.', bn: '🥷 চোর - ০ পয়েন্ট (অথবা ৪০০): ছদ্মবেশে লুকিয়ে থাকা চতুর চোর।' },
+      rulesFlowHeader:    { en: 'Gameplay Flow:', bn: 'খেলার প্রবাহ:' },
+      rulesStep1:         { en: '4 folded chits are dealt to the 4 players.', bn: '৪টি ভাঁজ করা চিরকুট ৪ জন খেলোয়াড়কে দেওয়া হয়।' },
+      rulesStep2:         { en: 'Babu and Police announce themselves automatically.', bn: 'বাবু ও পুলিশ স্বয়ংক্রিয়ভাবে নিজেদের পরিচয় দেয়।' },
+      rulesStep3:         { en: 'Babu shouts orders: "Police, catch the Chor!" or "Police, catch the Dakat!"', bn: 'বাবু আদেশ দেন: "পুলিশ, চোরকে ধরো!" বা "পুলিশ, ডাকাতকে ধরো!"' },
+      rulesStep4:         { en: 'Police must pick between the 2 remaining hidden players.', bn: 'পুলিশকে বাকি ২ জন লুকানো খেলোয়াড়ের মধ্য থেকে বেছে নিতে হবে।' },
+      rulesStep5:         { en: 'Scoring: If Police guesses correctly, everyone keeps their points. If Police guesses wrong, Police gets 0 pts and the target gets the 800 pts!', bn: 'পয়েন্ট: পুলিশ সঠিক অনুমান করলে সবাই তাদের পয়েন্ট পায়। ভুল হলে পুলিশ ০ পয়েন্ট পায় এবং লক্ষ্য ব্যক্তি ৮০০ পয়েন্ট পায়!' },
+      gotIt:              { en: 'Got it!',               bn: 'বুঝেছি!' },
+
+      // --- Confirm Reset modal ---
+      confirmResetTitle:  { en: '↺ Start New Game?',     bn: '↺ নতুন খেলা শুরু করবেন?' },
+      confirmResetMsg:    { en: 'Are you sure you want to reset all scores and restart from Round 1?', bn: 'আপনি কি নিশ্চিত? সব পয়েন্ট মুছে রাউন্ড ১ থেকে শুরু হবে।' },
+      yesRestart:         { en: 'Yes, Restart Match',    bn: 'হ্যাঁ, পুনরায় শুরু করুন' },
+
+      // --- Pass & Play modal ---
+      passTitle:          { en: '\'s Chit',               bn: '-এর চিরকুট' },
+      passInstructions:   { en: 'Please pass the screen to', bn: 'অনুগ্রহ করে স্ক্রিনটি দিন' },
+      passHideNote:       { en: 'Ensure nobody else looks!', bn: 'অন্য কেউ যেন না দেখে!' },
+      passHiddenText:     { en: 'Tap below to privately peek at your chit.', bn: 'নিচে ট্যাপ করুন গোপনে আপনার চিরকুট দেখতে।' },
+      passRevealBtn:      { en: '👀 Reveal My Chit',      bn: '👀 আমার চিরকুট দেখি' },
+      passYouDrew:        { en: 'You have drawn:',        bn: 'আপনি পেয়েছেন:' },
+      passHideBtn:        { en: '🔒 Hide Chit & Continue', bn: '🔒 চিরকুট লুকাও ও চালিয়ে যাও' },
+
+      // Pass role advice
+      passBabuAdvice:     { en: 'You are the Master (Saheb)! You will command the Police.', bn: 'আপনি কর্তা (সাহেব)! আপনি পুলিশকে নির্দেশ দেবেন।' },
+      passPoliceAdvice:   { en: 'You are the Police! You will have to guess the suspect.', bn: 'আপনি পুলিশ! আপনাকে সন্দেহভাজনকে চিনতে হবে।' },
+      passDakatAdvice:    { en: 'You are the Dakat! Keep a straight poker face.', bn: 'আপনি ডাকাত! চেহারায় ভাব দেখাবেন না।' },
+      passChorAdvice:     { en: 'You are the Chor! Stay quiet and innocent.', bn: 'আপনি চোর! চুপচাপ নির্দোষের ভান করুন।' },
+
+      // --- Winner modal ---
+      gameOver:           { en: '🏆 Game Over!',          bn: '🏆 খেলা শেষ!' },
+      champion:           { en: '🎉 Champion:',            bn: '🎉 চ্যাম্পিয়ন:' },
+      points:             { en: 'Points',                 bn: 'পয়েন্ট' },
+      firstPlace:         { en: '🥇 1st Place',           bn: '🥇 ১ম স্থান' },
+      secondPlace:        { en: '🥈 2nd Place',           bn: '🥈 ২য় স্থান' },
+      thirdPlace:         { en: '🥉 3rd Place',           bn: '🥉 ৩য় স্থান' },
+      fourthPlace:        { en: '4th Place',              bn: '৪র্থ স্থান' },
+      playAnother:        { en: '🎮 Play Another Game',   bn: '🎮 আবার খেলুন' },
+
+      // --- Roles in scoreboard ---
+      roleBabu:           { en: 'Babu',                   bn: 'বাবু' },
+      rolePolice:         { en: 'Police',                 bn: 'পুলিশ' },
+      roleDakat:          { en: 'Dakat',                  bn: 'ডাকাত' },
+      roleChor:           { en: 'Chor',                   bn: 'চোর' },
+
+      // --- Role name in target ---
+      chorTarget:         { en: 'Chor (চোর)',              bn: 'চোর' },
+      dakatTarget:        { en: 'Dakat (ডাকাত)',           bn: 'ডাকাত' },
+    };
+
+    function t(key) {
+      const entry = TRANSLATIONS[key];
+      if (!entry) return key;
+      return entry[state.lang] || entry['en'] || key;
+    }
+
+    /* =================================================================
        GAME CONSTANTS & ROLES DEFINITION
        ================================================================= */
     const ROLES = {
@@ -1708,6 +1880,7 @@
     const state = {
       mode: 'single', // 'single' or 'pass'
       theme: 'khata', // 'khata', 'white', 'blank', 'chalk'
+      lang: 'en',     // 'en' or 'bn'
       targetRounds: 5,
       currentRound: 1,
       chorPoints: 0, // 0 or 400
@@ -1748,6 +1921,8 @@
       btnThemeSwitcher: document.getElementById('btn-theme-switcher'),
       themeIcon: document.getElementById('theme-icon'),
       themeNameLabel: document.getElementById('theme-name-label'),
+      btnLangToggle: document.getElementById('btn-lang-toggle'),
+      langToggleLabel: document.getElementById('lang-toggle-label'),
       btnSound: document.getElementById('btn-toggle-sound'),
       soundIcon: document.getElementById('sound-icon'),
       btnRules: document.getElementById('btn-rules'),
@@ -1855,9 +2030,180 @@
       } catch (e) {}
       setTheme(state.theme);
 
+      // Restore saved language if any
+      try {
+        const savedLang = localStorage.getItem('cpdb_lang');
+        if (savedLang === 'en' || savedLang === 'bn') state.lang = savedLang;
+      } catch (e) {}
+
       setupEventListeners();
       applySettings(false);
+      applyTranslations();
       resetMatch();
+    }
+
+    /* =================================================================
+       TRANSLATIONS APPLY FUNCTION
+       ================================================================= */
+    function applyTranslations() {
+      const lang = state.lang;
+      // Update <html lang> attribute
+      document.getElementById('html-root').lang = lang;
+
+      // Language toggle button label — show the OTHER language (what you'll switch TO)
+      DOM.langToggleLabel.textContent = lang === 'en' ? '🇧🇩 বাংলা' : '🇬🇧 English';
+
+      // Subtitle
+      const subtitleEl = document.querySelector('.subtitle');
+      if (subtitleEl) subtitleEl.textContent = t('subtitle');
+
+      // Toolbar buttons (text only, preserve emoji prefix)
+      DOM.btnSound.innerHTML = `<span class="btn-icon" id="sound-icon">${document.getElementById('sound-icon') ? document.getElementById('sound-icon').textContent : '🔊'}</span> ${t('sound')}`;
+      document.getElementById('btn-rules').textContent = t('rules');
+      document.getElementById('btn-settings').textContent = t('settings');
+      document.getElementById('btn-reset-game').textContent = t('newGame');
+
+      // PWA install banner
+      const pwaMsg = document.querySelector('#pwa-install-banner > div:first-child');
+      if (pwaMsg) pwaMsg.textContent = t('installMsg');
+      const pwaInstallBtn = document.getElementById('btn-pwa-install');
+      if (pwaInstallBtn) pwaInstallBtn.textContent = t('install');
+
+      // Settings modal
+      const settingsTitle = document.querySelector('#modal-settings h2');
+      if (settingsTitle) settingsTitle.textContent = t('settingsTitle');
+      const gameModeLabel = document.querySelector('label[for="select-mode"]');
+      if (gameModeLabel) gameModeLabel.textContent = t('gameModeLabel');
+      const modeOptSingle = document.querySelector('#select-mode option[value="single"]');
+      if (modeOptSingle) modeOptSingle.textContent = t('modeOptionSingle');
+      const modeOptPass = document.querySelector('#select-mode option[value="pass"]');
+      if (modeOptPass) modeOptPass.textContent = t('modeOptionPass');
+      const targetRoundsLbl = document.querySelector('label[for="select-rounds"]');
+      if (targetRoundsLbl) targetRoundsLbl.textContent = t('targetRoundsLabel');
+      const r5 = document.querySelector('#select-rounds option[value="5"]');
+      if (r5) r5.textContent = t('round5');
+      const r10 = document.querySelector('#select-rounds option[value="10"]');
+      if (r10) r10.textContent = t('round10');
+      const r15 = document.querySelector('#select-rounds option[value="15"]');
+      if (r15) r15.textContent = t('round15');
+      // Toggle row labels in settings
+      const settingsToggles = document.querySelectorAll('#modal-settings .toggle-row span:first-child');
+      if (settingsToggles[0]) settingsToggles[0].textContent = t('chorPointsLabel');
+      if (settingsToggles[1]) settingsToggles[1].textContent = t('alwaysPoliceLabel');
+      if (settingsToggles[2]) settingsToggles[2].textContent = t('hideBabuLabel');
+      // Settings note
+      const settingsNote = document.querySelector('#modal-settings > div > div[style*="font-size: 0.9rem"]');
+      if (settingsNote) settingsNote.textContent = t('settingsNote');
+      // Buttons in settings
+      document.getElementById('btn-save-settings').textContent = t('saveBtn');
+      document.getElementById('btn-close-settings').textContent = t('cancelBtn');
+      // Toggle labels (on/off)
+      DOM.labelAlwaysPolice.textContent = DOM.toggleAlwaysPolice.checked ? t('toggleOn') : t('toggleOff');
+      DOM.labelHideBabu.textContent = DOM.toggleHideBabu.checked ? t('toggleOn') : t('toggleOff');
+      updateChorToggleLabel();
+
+      // Confirm reset modal
+      const confirmTitle = document.querySelector('#modal-confirm-reset h2');
+      if (confirmTitle) confirmTitle.textContent = t('confirmResetTitle');
+      const confirmMsg = document.querySelector('#modal-confirm-reset p');
+      if (confirmMsg) {
+        confirmMsg.innerHTML = `${t('confirmResetMsg')} <b>${lang === 'en' ? 'Round 1' : 'রাউন্ড ১'}</b>?`;
+      }
+      document.getElementById('btn-confirm-reset-yes').textContent = t('yesRestart');
+      document.getElementById('btn-confirm-reset-no').textContent = t('cancelBtn');
+
+      // Rules modal
+      const rulesTitle = document.querySelector('#modal-rules h2');
+      if (rulesTitle) rulesTitle.textContent = t('rulesTitle');
+      const rulesContent = document.querySelector('#modal-rules .modal-card > div');
+      if (rulesContent) {
+        rulesContent.innerHTML = `
+          <p><b>${t('rulesRolesHeader')}</b></p>
+          <ul style="margin-left: 20px; margin-bottom: 12px;">
+            <li>${t('rulesBabu')}</li>
+            <li>${t('rulesPolice')}</li>
+            <li>${t('rulesDakat')}</li>
+            <li>${t('rulesChor')}</li>
+          </ul>
+          <p><b>${t('rulesFlowHeader')}</b></p>
+          <ol style="margin-left: 20px; margin-bottom: 12px;">
+            <li>${t('rulesStep1')}</li>
+            <li>${t('rulesStep2')}</li>
+            <li>${t('rulesStep3')}</li>
+            <li>${t('rulesStep4')}</li>
+            <li><b>${lang === 'en' ? 'Scoring:' : 'পয়েন্ট:'}</b> ${t('rulesStep5')}</li>
+          </ol>
+        `;
+      }
+      document.getElementById('btn-close-rules').textContent = t('gotIt');
+
+      // Winner modal static text
+      const gameOverTitle = document.querySelector('#modal-winner .modal-card > h2');
+      if (gameOverTitle) gameOverTitle.textContent = t('gameOver');
+      const replayBtn = document.getElementById('btn-winner-replay');
+      if (replayBtn) replayBtn.textContent = t('playAnother');
+
+      // Pass & Play modal static parts
+      document.getElementById('btn-pass-peek').textContent = t('passRevealBtn');
+      document.getElementById('btn-pass-next').textContent = t('passHideBtn');
+      const passHiddenP = document.querySelector('#pass-box-hidden p');
+      if (passHiddenP) passHiddenP.textContent = t('passHiddenText');
+      const passYouDrewP = document.querySelector('#pass-box-revealed > p:first-child');
+      if (passYouDrewP) passYouDrewP.textContent = t('passYouDrew');
+
+      // Scoreboard heading & target
+      const scoreHeader = document.querySelector('.scoreboard-header h2');
+      if (scoreHeader) scoreHeader.textContent = t('scoreSheet');
+      const scoreTarget = document.querySelector('.scoreboard-header > span');
+      if (scoreTarget) scoreTarget.innerHTML = `${t('targetLabel')} <b id="score-sheet-target">${state.targetRounds}</b> ${t('rounds')}`;
+      // Scoreboard total row
+      const totalRowTd = document.querySelector('table.khata-table tfoot tr td:first-child');
+      if (totalRowTd) totalRowTd.textContent = t('total');
+      // Scoreboard header round column
+      const roundTh = document.querySelector('table.khata-table thead th:first-child');
+      if (roundTh) roundTh.textContent = t('roundCol');
+
+      // Mode label in toolbar
+      if (state.mode === 'single') {
+        DOM.labelMode.textContent = t('singlePlayerMode');
+      } else {
+        DOM.labelMode.textContent = t('passPlayMode');
+      }
+
+      // Player names in DOM (only on fresh game / idle state)
+      if (state.currentRoundState && state.currentRoundState.step === 'IDLE') {
+        state.players.forEach((p, idx) => {
+          DOM.playerNames[idx].textContent = p.name;
+          DOM.thPlayers[idx].textContent = p.name;
+        });
+      }
+
+      // Player score label (Total: X pts)
+      document.querySelectorAll('.player-total-score').forEach((el, idx) => {
+        const scoreSpan = el.querySelector(`#score-${idx}`);
+        if (scoreSpan) {
+          el.innerHTML = `${t('totalLabel')} <span id="score-${idx}">${scoreSpan.textContent}</span> ${t('pts')}`;
+        }
+      });
+
+      // Update chit folded-state text
+      document.querySelectorAll('.chit-front div:not(.chit-seal):not(.fold-line)').forEach(el => {
+        if (el.textContent === 'CHIT' || el.textContent === 'চিরকুট') {
+          el.textContent = lang === 'en' ? 'CHIT' : 'চিরকুট';
+        }
+      });
+      document.querySelectorAll('.chit-front small').forEach(el => {
+        if (el.textContent === 'Folded' || el.textContent === 'ভাঁজ') {
+          el.textContent = lang === 'en' ? 'Folded' : 'ভাঁজ';
+        }
+      });
+
+      // Announcement main text — update if in IDLE state only
+      if (state.currentRoundState && state.currentRoundState.step === 'IDLE') {
+        DOM.announcementMain.textContent = `${t('round')} ${state.currentRound} ${t('of')} ${state.targetRounds}`;
+        DOM.announcementSub.textContent = t('dealSub');
+        DOM.btnActionMain.textContent = t('dealBtn');
+      }
     }
 
     const THEMES = [
@@ -1870,6 +2216,12 @@
     function setupEventListeners() {
       DOM.btnThemeSwitcher.addEventListener('click', () => {
         cycleTheme();
+      });
+
+      DOM.btnLangToggle.addEventListener('click', () => {
+        state.lang = (state.lang === 'en') ? 'bn' : 'en';
+        try { localStorage.setItem('cpdb_lang', state.lang); } catch(e) {}
+        applyTranslations();
       });
 
       DOM.btnSound.addEventListener('click', () => {
@@ -1901,11 +2253,11 @@
       });
 
       DOM.toggleAlwaysPolice.addEventListener('change', () => {
-        DOM.labelAlwaysPolice.textContent = DOM.toggleAlwaysPolice.checked ? 'On' : 'Off';
+        DOM.labelAlwaysPolice.textContent = DOM.toggleAlwaysPolice.checked ? t('toggleOn') : t('toggleOff');
       });
 
       DOM.toggleHideBabu.addEventListener('change', () => {
-        DOM.labelHideBabu.textContent = DOM.toggleHideBabu.checked ? 'On' : 'Off';
+        DOM.labelHideBabu.textContent = DOM.toggleHideBabu.checked ? t('toggleOn') : t('toggleOff');
       });
 
       DOM.btnCloseSettings.addEventListener('click', () => {
@@ -1981,7 +2333,7 @@
     }
 
     function updateChorToggleLabel() {
-      DOM.labelChorPts.textContent = DOM.toggleChorPts.checked ? '400 Pts' : '0 Pts (Classic)';
+      DOM.labelChorPts.textContent = DOM.toggleChorPts.checked ? t('chorPts400') : t('chorPts0');
     }
 
     function updateSinglePlayerOptionsVisibility() {
@@ -2001,20 +2353,20 @@
       // Update Player setup based on mode
       if (state.mode === 'single') {
         state.players = [
-          { id: 0, name: 'You (Player 1)', avatar: '🧑‍🎓', isBot: false, totalScore: 0 },
-          { id: 1, name: 'Bot 1', avatar: '🤖', isBot: true, totalScore: 0 },
-          { id: 2, name: 'Bot 2', avatar: '🤖', isBot: true, totalScore: 0 },
-          { id: 3, name: 'Bot 3', avatar: '🤖', isBot: true, totalScore: 0 }
+          { id: 0, name: t('youPlayer1'), avatar: '🧑‍🎓', isBot: false, totalScore: 0 },
+          { id: 1, name: t('bot1'), avatar: '🤖', isBot: true, totalScore: 0 },
+          { id: 2, name: t('bot2'), avatar: '🤖', isBot: true, totalScore: 0 },
+          { id: 3, name: t('bot3'), avatar: '🤖', isBot: true, totalScore: 0 }
         ];
-        DOM.labelMode.textContent = '🤖 Single-Player';
+        DOM.labelMode.textContent = t('singlePlayerMode');
       } else {
         state.players = [
-          { id: 0, name: 'Player 1', avatar: '🧑‍💼', isBot: false, totalScore: 0 },
-          { id: 1, name: 'Player 2', avatar: '👩‍💼', isBot: false, totalScore: 0 },
-          { id: 2, name: 'Player 3', avatar: '🧑‍🎓', isBot: false, totalScore: 0 },
-          { id: 3, name: 'Player 4', avatar: '👩‍🏫', isBot: false, totalScore: 0 }
+          { id: 0, name: t('player1'), avatar: '🧑‍💼', isBot: false, totalScore: 0 },
+          { id: 1, name: t('player2'), avatar: '👩‍💼', isBot: false, totalScore: 0 },
+          { id: 2, name: t('player3'), avatar: '🧑‍🎓', isBot: false, totalScore: 0 },
+          { id: 3, name: t('player4'), avatar: '👩‍🏫', isBot: false, totalScore: 0 }
         ];
-        DOM.labelMode.textContent = '👥 Pass-and-Play';
+        DOM.labelMode.textContent = t('passPlayMode');
       }
 
       DOM.labelTargetRounds.textContent = state.targetRounds;
@@ -2056,9 +2408,9 @@
         stamps.forEach(el => el.remove());
       });
 
-      DOM.announcementMain.textContent = `Round ${state.currentRound} of ${state.targetRounds}`;
-      DOM.announcementSub.textContent = 'Click "Deal & Shuffle Chits" to fold and shuffle the paper chits.';
-      DOM.btnActionMain.textContent = '🃏 Deal & Shuffle';
+      DOM.announcementMain.textContent = `${t('round')} ${state.currentRound} ${t('of')} ${state.targetRounds}`;
+      DOM.announcementSub.textContent = t('dealSub');
+      DOM.btnActionMain.textContent = t('dealBtn');
       DOM.btnActionMain.style.display = 'inline-flex';
       DOM.btnActionMain.disabled = false;
     }
@@ -2080,8 +2432,8 @@
     function startShuffleAndDeal() {
       state.currentRoundState.step = 'SHUFFLING';
       DOM.btnActionMain.disabled = true;
-      DOM.announcementMain.textContent = 'Shuffling & Folding Chits...';
-      DOM.announcementSub.textContent = 'The 4 folded chits are being mixed on the notebook...';
+      DOM.announcementMain.textContent = t('shufflingMain');
+      DOM.announcementSub.textContent = t('shufflingSub');
       sound.playShuffle();
 
       // Trigger CSS shaking animation
@@ -2178,8 +2530,8 @@
 
     function showPassAndPlayModal(playerIdx) {
       const player = state.players[playerIdx];
-      DOM.passPlayerTitle.textContent = `${player.name}'s Chit`;
-      DOM.passPlayerInstructions.innerHTML = `Please pass the screen to <b>${player.name}</b>. Ensure nobody else looks!`;
+      DOM.passPlayerTitle.textContent = `${player.name}${t('passTitle')}`;
+      DOM.passPlayerInstructions.innerHTML = `${t('passInstructions')} <b>${player.name}</b>. ${t('passHideNote')}`;
       DOM.passBoxHidden.classList.remove('hidden');
       DOM.passBoxRevealed.classList.add('hidden');
       DOM.modalPassPlay.classList.remove('hidden');
@@ -2200,10 +2552,10 @@
       `;
 
       let roleAdvice = '';
-      if (role.id === 'babu') roleAdvice = 'You are the Master (Saheb)! You will command the Police.';
-      else if (role.id === 'police') roleAdvice = 'You are the Police! You will have to guess the suspect.';
-      else if (role.id === 'dakat') roleAdvice = 'You are the Dakat! Keep a straight poker face.';
-      else if (role.id === 'chor') roleAdvice = 'You are the Chor! Stay quiet and innocent.';
+      if (role.id === 'babu') roleAdvice = t('passBabuAdvice');
+      else if (role.id === 'police') roleAdvice = t('passPoliceAdvice');
+      else if (role.id === 'dakat') roleAdvice = t('passDakatAdvice');
+      else if (role.id === 'chor') roleAdvice = t('passChorAdvice');
 
       DOM.passRoleDesc.textContent = roleAdvice;
       DOM.passBoxHidden.classList.add('hidden');
@@ -2245,14 +2597,14 @@
 
       DOM.playerSlots[policeIdx].classList.add('active-police');
 
-      const targetRoleName = state.currentRoundState.targetSuspectRole === 'chor' ? 'Chor (চোর)' : 'Dakat (ডাকাত)';
+      const targetRoleName = state.currentRoundState.targetSuspectRole === 'chor' ? t('chorTarget') : t('dakatTarget');
       
       if (shouldHideBabu) {
-        DOM.announcementMain.innerHTML = `👑 <b>Anonymous Babu</b> commands from the shadows: <br>"${policePlayer.name} (Police), find out who the <u>${targetRoleName}</u> is!"`;
-        DOM.announcementSub.textContent = `Babu is hidden among the bots! Police must choose between all 3 suspects.`;
+        DOM.announcementMain.innerHTML = `👑 <b>${t('anonBabu')}</b> ${t('anonBabuCmd')} <br>"${policePlayer.name} (${t('rolePolice')}), ${t('babuFindOut')} <u>${targetRoleName}</u> ${t('babuIs')}"`;
+        DOM.announcementSub.textContent = t('anonBabuSub');
       } else {
-        DOM.announcementMain.innerHTML = `👑 <b>${babuPlayer.name}</b> (Babu) commands: <br>"${policePlayer.name} (Police), find out who the <u>${targetRoleName}</u> is!"`;
-        DOM.announcementSub.textContent = `Police must choose between the 2 remaining hidden players!`;
+        DOM.announcementMain.innerHTML = `👑 <b>${babuPlayer.name}</b> (${t('roleBabu')}) ${t('babuCommands')}: <br>"${policePlayer.name} (${t('rolePolice')}), ${t('babuFindOut')} <u>${targetRoleName}</u> ${t('babuIs')}"`;
+        DOM.announcementSub.textContent = t('policeFindSub');
       }
       DOM.btnActionMain.style.display = 'none'; // Hide main button during guessing
 
@@ -2286,15 +2638,15 @@
         if (!slot.querySelector('.suspect-hint')) {
           const hint = document.createElement('div');
           hint.className = 'suspect-hint';
-          hint.textContent = 'Suspect?';
+          hint.textContent = t('suspectHint');
           slot.appendChild(hint);
         }
       });
 
       if (isPoliceBot) {
         // Bot is Police: Simulate thinking delay
-        DOM.announcementMain.textContent = `🤔 ${state.players[policeIdx].name} (Police) is interrogating suspects...`;
-        DOM.announcementSub.textContent = 'Simulating bot thinking (1.5s)...';
+        DOM.announcementMain.textContent = `🤔 ${state.players[policeIdx].name} (${t('rolePolice')}) ${t('policeInspecting')}`;
+        DOM.announcementSub.textContent = t('botThinkingSub');
 
         setTimeout(() => {
           // Bot chooses randomly among the selectable suspects
@@ -2303,11 +2655,11 @@
         }, 1600);
       } else {
         // Human player is Police
-        DOM.announcementMain.textContent = `👮 ${state.players[policeIdx].name}, click on a suspect's slot to accuse them!`;
+        DOM.announcementMain.textContent = `👮 ${state.players[policeIdx].name}${t('clickAccuse')}`;
         if (shouldHideBabu) {
-          DOM.announcementSub.textContent = `Babu is also disguised! Pick the ${targetRoleName} among the 3 candidates.`;
+          DOM.announcementSub.textContent = `${t('hideBabuSub')} ${targetRoleName} ${t('hideBabuSub2')}`;
         } else {
-          DOM.announcementSub.textContent = `Look closely at their faces. Who is the ${targetRoleName}?`;
+          DOM.announcementSub.textContent = `${t('lookClosely')} ${targetRoleName}?`;
         }
       }
     }
@@ -2398,7 +2750,7 @@
       // Show result announcement
       const policeName = state.players[policeIdx].name;
       const accusedName = state.players[accusedPlayerIdx].name;
-      const targetRoleTitle = targetRole === 'chor' ? 'Chor' : 'Dakat';
+      const targetRoleTitle = targetRole === 'chor' ? t('roleChor') : t('roleDakat');
 
       // Visual animations, interactive stamps and floating score popups
       if (isCorrect) {
@@ -2406,7 +2758,7 @@
         DOM.playerSlots[accusedPlayerIdx].classList.add('slot-caught');
         const caughtStamp = document.createElement('div');
         caughtStamp.className = 'result-stamp stamp-caught';
-        caughtStamp.innerHTML = `🚨 CAUGHT! 🚨<br><small>(${targetRoleTitle})</small>`;
+        caughtStamp.innerHTML = `${t('stampCaught')}<br><small>(${targetRoleTitle})</small>`;
         DOM.playerSlots[accusedPlayerIdx].querySelector('.chit-wrapper').appendChild(caughtStamp);
 
         // Police Celebration
@@ -2415,33 +2767,33 @@
         // Floating score popup on Police
         showFloatingPts(policeIdx, '+800', true);
 
-        DOM.announcementMain.innerHTML = `🎉 <b>Correct Guess!</b> ${policeName} caught ${accusedName} the ${targetRoleTitle}!`;
-        DOM.announcementSub.textContent = `Police secured their 800 points! All players retain their chits' points.`;
+        DOM.announcementMain.innerHTML = `🎉 <b>${t('correctGuess')}</b> ${policeName} ${t('caughtThe')} ${accusedName} (${targetRoleTitle})!`;
+        DOM.announcementSub.textContent = t('policeSecured');
       } else {
         // Accused was wrong/innocent
         DOM.playerSlots[accusedPlayerIdx].classList.add('slot-wrong');
         const innocentStamp = document.createElement('div');
         innocentStamp.className = 'result-stamp stamp-innocent';
-        innocentStamp.innerHTML = `❌ INNOCENT! ❌<br><small>Wrong Pick</small>`;
+        innocentStamp.innerHTML = `${t('stampInnocent')}<br><small>${t('wrongPick')}</small>`;
         DOM.playerSlots[accusedPlayerIdx].querySelector('.chit-wrapper').appendChild(innocentStamp);
 
         // Police was wrong
         DOM.playerSlots[policeIdx].classList.add('slot-wrong');
-        showFloatingPts(policeIdx, '0 pts', false);
+        showFloatingPts(policeIdx, `0 ${t('pts')}`, false);
 
         // Actual target escaped!
         DOM.playerSlots[actualTargetPlayerId].classList.add('slot-escaped');
         const escapedStamp = document.createElement('div');
         escapedStamp.className = 'result-stamp stamp-escaped';
-        escapedStamp.innerHTML = `🏃 ESCAPED! 🏃<br><small>+800 Bonus</small>`;
+        escapedStamp.innerHTML = `${t('stampEscaped')}<br><small>${t('bonusLabel')}</small>`;
         DOM.playerSlots[actualTargetPlayerId].querySelector('.chit-wrapper').appendChild(escapedStamp);
 
         const bonusTotal = roundScores[actualTargetPlayerId];
         showFloatingPts(actualTargetPlayerId, `+${bonusTotal}`, true);
 
         const actualTargetName = state.players[actualTargetPlayerId].name;
-        DOM.announcementMain.innerHTML = `❌ <b>Wrong Guess!</b> ${accusedName} was NOT the ${targetRoleTitle}!`;
-        DOM.announcementSub.innerHTML = `${actualTargetName} escaped! Police gets <b>0 pts</b>, and ${actualTargetName} steals the <b>800 pts</b>!`;
+        DOM.announcementMain.innerHTML = `❌ <b>${t('wrongGuess')}</b> ${accusedName} ${t('wasNotThe')} ${targetRoleTitle}${state.lang === 'bn' ? ' ' + t('wasNotThe2') : '!'}`;
+        DOM.announcementSub.innerHTML = `${actualTargetName} ${t('escaped')} <b>${t('zeropts')}</b>, ${state.lang === 'en' ? 'and ' : ''}${actualTargetName} ${t('steals')} <b>${t('pts800')}</b>`;
       }
 
       // Update UI Scoreboard
@@ -2451,9 +2803,9 @@
       DOM.btnActionMain.style.display = 'inline-flex';
       DOM.btnActionMain.disabled = false;
       if (state.currentRound >= state.targetRounds) {
-        DOM.btnActionMain.textContent = '🏆 View Final Results';
+        DOM.btnActionMain.textContent = t('viewResults');
       } else {
-        DOM.btnActionMain.textContent = `Next Round (Round ${state.currentRound + 1}) ➔`;
+        DOM.btnActionMain.textContent = `${t('nextRoundBtn')} (${t('round')} ${state.currentRound + 1}) ➔`;
       }
     }
 
@@ -2498,7 +2850,8 @@
         item.scores.forEach((pts, pIdx) => {
           const role = item.assignments[pIdx];
           const ptsClass = pts > 0 ? 'pts-gain' : 'pts-zero';
-          tdCols += `<td><span class="${ptsClass}">+${pts}</span> <small>(${role.titleEn})</small></td>`;
+          const roleNameDisplay = role.id === 'babu' ? t('roleBabu') : role.id === 'police' ? t('rolePolice') : role.id === 'dakat' ? t('roleDakat') : t('roleChor');
+          tdCols += `<td><span class="${ptsClass}">+${pts}</span> <small>(${roleNameDisplay})</small></td>`;
         });
 
         tr.innerHTML = tdCols;
@@ -2516,7 +2869,7 @@
       const sorted = [...state.players].sort((a, b) => b.totalScore - a.totalScore);
       const winner = sorted[0];
 
-      DOM.winnerHeadline.textContent = `🎉 Champion: ${winner.name} (${winner.totalScore} Points)!`;
+      DOM.winnerHeadline.textContent = `${t('champion')} ${winner.name} (${winner.totalScore} ${t('points')})!`;
 
       DOM.winnerRankingsList.innerHTML = '';
       sorted.forEach((p, rank) => {
@@ -2524,10 +2877,10 @@
         item.className = `winner-rank-item ${rank === 0 ? 'first' : ''}`;
         
         let medal = '🎖️';
-        if (rank === 0) medal = '🥇 1st Place';
-        else if (rank === 1) medal = '🥈 2nd Place';
-        else if (rank === 2) medal = '🥉 3rd Place';
-        else medal = '4th Place';
+        if (rank === 0) medal = t('firstPlace');
+        else if (rank === 1) medal = t('secondPlace');
+        else if (rank === 2) medal = t('thirdPlace');
+        else medal = t('fourthPlace');
 
         item.innerHTML = `
           <div>${medal} - ${p.avatar} ${p.name}</div>
