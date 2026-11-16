@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fffdf7" />
+      <stop offset="70%" stop-color="#f5eedc" />
+      <stop offset="100%" stop-color="#e3d6be" />
+    </radialGradient>
+
+    <!-- Chit Shadow -->
+    <filter id="dropShadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="3" dy="8" stdDeviation="8" flood-color="#1b263b" flood-opacity="0.32" />
+    </filter>
+
+    <filter id="innerGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowDiff"/>
+      <feFlood flood-color="#14387f" flood-opacity="0.15"/>
+      <feComposite in2="shadowDiff" operator="in"/>
+      <feComposite in2="SourceGraphic" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Outer circular badge with ink stitch border -->
+  <circle cx="256" cy="256" r="240" fill="url(#bgGlow)" stroke="#1b263b" stroke-width="7" stroke-dasharray="14,7" />
+  <circle cx="256" cy="256" r="226" fill="none" stroke="#c9184a" stroke-width="2.5" opacity="0.8" />
+
+  <!-- School Notebook Ruled Lines in Background -->
+  <g opacity="0.22" stroke="#4a90e2" stroke-width="2">
+    <line x1="60" y1="120" x2="452" y2="120" />
+    <line x1="40" y1="170" x2="472" y2="170" />
+    <line x1="30" y1="220" x2="482" y2="220" />
+    <line x1="30" y1="270" x2="482" y2="270" />
+    <line x1="30" y1="320" x2="482" y2="320" />
+    <line x1="40" y1="370" x2="472" y2="370" />
+    <line x1="60" y1="420" x2="452" y2="420" />
+  </g>
+  <!-- Red Margin Line -->
+  <line x1="135" y1="35" x2="135" y2="477" stroke="#f7a8b8" stroke-width="3" opacity="0.6" />
+
+  <!-- Central Folded Paper Chits Stack -->
+  <g filter="url(#dropShadow)">
+    <!-- Back Paper Chit (Rotated) -->
+    <rect x="156" y="156" width="200" height="200" rx="14" fill="#faf5e8" stroke="#a49372" stroke-width="3.5" transform="rotate(-15 256 256)" />
+    <!-- Middle Paper Chit (Rotated opposite) -->
+    <rect x="156" y="156" width="200" height="200" rx="14" fill="#fffdfa" stroke="#14387f" stroke-width="3.5" transform="rotate(12 256 256)" />
+    <!-- Front Paper Chit (Folded creases) -->
+    <rect x="156" y="156" width="200" height="200" rx="14" fill="#ffffff" stroke="#1b263b" stroke-width="4" />
+    <!-- Fold Crease Cross -->
+    <line x1="156" y1="256" x2="356" y2="256" stroke="#d5c8a5" stroke-dasharray="6,4" stroke-width="2.5" />
+    <line x1="256" y1="156" x2="256" y2="356" stroke="#d5c8a5" stroke-dasharray="6,4" stroke-width="2.5" />
+  </g>
+
+  <!-- 4 Roles Quadrant Icons inside the central Chit -->
+  <!-- Top-Left: Babu (Crown) -->
+  <g transform="translate(176, 172)">
+    <!-- Crown -->
+    <path d="M10 36 L15 14 L28 26 L40 10 L52 26 L65 14 L70 36 Z" fill="#ffb703" stroke="#b07d02" stroke-width="2.5" stroke-linejoin="round" />
+    <circle cx="15" cy="14" r="3" fill="#c9184a" />
+    <circle cx="40" cy="10" r="3.5" fill="#14387f" />
+    <circle cx="65" cy="14" r="3" fill="#c9184a" />
+    <rect x="10" y="36" width="60" height="7" rx="2" fill="#d4a373" stroke="#8b5a2b" stroke-width="2" />
+  </g>
+
+  <!-- Top-Right: Police (Peaked Cap & Star) -->
+  <g transform="translate(262, 168)">
+    <!-- Cap Crown -->
+    <path d="M8 32 C12 12, 60 12, 64 32 Z" fill="#1d3557" stroke="#0d1b2a" stroke-width="2.5" />
+    <!-- Cap Visor -->
+    <path d="M4 32 Q36 44 68 32 C60 46 12 46 4 32 Z" fill="#212529" stroke="#000" stroke-width="2" />
+    <!-- Gold Police Badge -->
+    <circle cx="36" cy="24" r="6" fill="#ffb703" stroke="#b07d02" stroke-width="1.5" />
+    <path d="M36 20 L37.5 23.5 L41 24 L38.5 26.5 L39 30 L36 28 L33 30 L33.5 26.5 L31 24 L34.5 23.5 Z" fill="#ffffff" />
+  </g>
+
+  <!-- Bottom-Left: Dakat (Bandit Mask & Mustache) -->
+  <g transform="translate(172, 268)">
+    <!-- Eye Mask -->
+    <path d="M8 20 C14 10 32 10 36 20 C40 10 58 10 64 20 C60 28 42 28 36 22 C30 28 12 28 8 20 Z" fill="#6a040f" stroke="#370617" stroke-width="2.5" />
+    <ellipse cx="23" cy="19" rx="4" ry="2.5" fill="#fff" />
+    <ellipse cx="49" cy="19" rx="4" ry="2.5" fill="#fff" />
+    <!-- Big Robber Mustache -->
+    <path d="M18 36 Q36 30 36 40 Q36 30 54 36 Q44 48 36 41 Q28 48 18 36 Z" fill="#1b263b" />
+  </g>
+
+  <!-- Bottom-Right: Chor (Sneak Thief Beanie & Mask) -->
+  <g transform="translate(266, 268)">
+    <!-- Thief Mask -->
+    <path d="M10 22 C14 14 30 14 34 22 C38 14 54 14 58 22 C54 30 40 30 34 24 C28 30 14 30 10 22 Z" fill="#2b2d42" stroke="#111" stroke-width="2" />
+    <ellipse cx="22" cy="22" rx="3.5" ry="2.5" fill="#ffea79" />
+    <ellipse cx="46" cy="22" rx="3.5" ry="2.5" fill="#ffea79" />
+    <circle cx="22" cy="22" r="1.5" fill="#000" />
+    <circle cx="46" cy="22" r="1.5" fill="#000" />
+    <!-- Sly smile -->
+    <path d="M26 36 Q34 44 44 34" fill="none" stroke="#c9184a" stroke-width="2.5" stroke-linecap="round" />
+  </g>
+
+  <!-- Center Red Wax/Ink Seal -->
+  <g transform="translate(256, 256)" filter="url(#dropShadow)">
+    <circle cx="0" cy="0" r="22" fill="#c9184a" stroke="#800f2f" stroke-width="2.5" />
+    <text x="0" y="7" text-anchor="middle" font-family="'Caveat', cursive, sans-serif" font-size="22" font-weight="bold" fill="#ffffff">চোর</text>
+  </g>
+
+  <!-- Top Ribbon Banner: Bengali Title -->
+  <g transform="translate(256, 75)">
+    <!-- Banner Shadow & Shape -->
+    <path d="M-175 0 L175 0 L160 38 L-160 38 Z" fill="#14387f" stroke="#0a1d42" stroke-width="3" />
+    <path d="M-175 0 L-195 -12 L-195 24 L-175 36 Z" fill="#0a1d42" />
+    <path d="M175 0 L195 -12 L195 24 L175 36 Z" fill="#0a1d42" />
+    <text x="0" y="27" text-anchor="middle" font-family="'Galada', 'Kalam', cursive, sans-serif" font-size="24" font-weight="bold" fill="#ffea79" letter-spacing="1">চোর পুলিশ ডাকাত বাবু</text>
+  </g>
+
+  <!-- Bottom Arch Text: English Subtitle -->
+  <g transform="translate(256, 442)">
+    <path d="M-160 -18 L160 -18 L150 18 L-150 18 Z" fill="#fdf0d5" stroke="#1b263b" stroke-width="2.5" rx="6" />
+    <text x="0" y="6" text-anchor="middle" font-family="'Patrick Hand', 'Kalam', cursive, sans-serif" font-size="19" font-weight="bold" fill="#1b263b" letter-spacing="2">CHOR POLICE DAKAT BABU</text>
+  </g>
+</svg>
