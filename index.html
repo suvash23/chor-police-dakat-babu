@@ -205,17 +205,38 @@
       position: absolute;
       top: 14px;
       right: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      pointer-events: none;
+    }
+
+    .corner-stamp .stamp-badge-main {
       border: 2px dashed var(--ink-red);
       color: var(--ink-red);
-      padding: 4px 10px;
+      padding: 3px 10px;
       font-size: 0.95rem;
-      transform: rotate(4deg);
+      transform: rotate(3deg);
       border-radius: 4px;
       font-weight: bold;
-      pointer-events: none;
-      opacity: 0.85;
+      opacity: 0.88;
       text-transform: uppercase;
       letter-spacing: 1px;
+      background: rgba(255,255,255,0.4);
+    }
+
+    .corner-stamp .stamp-badge-version {
+      border: 1.5px solid var(--ink-blue);
+      color: var(--ink-blue);
+      padding: 1px 7px;
+      font-size: 0.78rem;
+      transform: rotate(-2deg);
+      border-radius: 3px;
+      font-weight: 800;
+      opacity: 0.9;
+      letter-spacing: 0.5px;
+      background: rgba(255,255,255,0.6);
     }
 
     header {
@@ -1176,7 +1197,10 @@
 <body>
 
   <div class="khata-notebook">
-    <div class="corner-stamp">বাঙালির খাতার খেলা</div>
+    <div class="corner-stamp">
+      <div class="stamp-badge-main">বাঙালির খাতার খেলা</div>
+      <div class="stamp-badge-version">v1.0 • First Release</div>
+    </div>
     
     <header>
       <img src="assets/logo.svg" alt="Chor Police Dakat Babu Logo" class="header-logo" title="Chor Police Dakat Babu (চোর পুলিশ ডাকাত বাবু)">
@@ -1347,7 +1371,7 @@
         Inspired by and dedicated with ❤️ to Anindya & Aradhaya
       </div>
       <div class="footer-copyright">
-        © 2026 Chor-Police-Dakat-Babu? • Made for family game nights
+        © 2026 Chor-Police-Dakat-Babu? • v1.0.0 (First Release) • Made for family game nights
       </div>
     </footer>
 
