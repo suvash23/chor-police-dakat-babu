@@ -1,24 +1,24 @@
-const CACHE_NAME = 'chor-police-v2';
+const CACHE_NAME = 'chor-police-v3';
 const ASSETS_TO_CACHE = [
-  './',
-  './index.html',
-  './manifest.json',
-  './src/style.css',
-  './src/main.js',
-  './src/game.js',
-  './src/ui.js',
-  './src/dom.js',
-  './src/state.js',
-  './src/constants.js',
-  './src/audio.js',
-  './src/translations.js',
-  './src/pwa.js',
-  './assets/logo.svg',
-  './assets/favicon.ico',
-  './assets/favicon-32x32.png',
-  './assets/icon-192.png',
-  './assets/icon-512.png',
-  './assets/apple-touch-icon.png'
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/src/style.css',
+  '/src/main.js',
+  '/src/game.js',
+  '/src/ui.js',
+  '/src/dom.js',
+  '/src/state.js',
+  '/src/constants.js',
+  '/src/audio.js',
+  '/src/translations.js',
+  '/src/pwa.js',
+  '/assets/logo.svg',
+  '/assets/favicon.ico',
+  '/assets/favicon-32x32.png',
+  '/assets/icon-192.png',
+  '/assets/icon-512.png',
+  '/assets/apple-touch-icon.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -46,6 +46,16 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // Navigation requests (opening the app from home screen or browser): fallback to root index
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(() => {
+        return caches.match('/') || caches.match('/index.html');
+      })
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       return cachedResponse || fetch(event.request);
