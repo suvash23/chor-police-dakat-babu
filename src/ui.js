@@ -32,12 +32,33 @@ export function updateChorToggleLabel() {
 }
 
 export function updateSinglePlayerOptionsVisibility() {
-  if (DOM.selectMode.value === 'single') {
+  const isSingle = DOM.selectMode.value === 'single';
+  if (isSingle) {
     DOM.singlePlayerOptions.style.display = 'block';
     DOM.labelAlwaysPolice.textContent = DOM.toggleAlwaysPolice.checked ? t('toggleOn') : t('toggleOff');
     DOM.labelHideBabu.textContent = DOM.toggleHideBabu.checked ? t('toggleOn') : t('toggleOff');
+
+    if (DOM.labelInputPlayers[0]) DOM.labelInputPlayers[0].textContent = t('labelPlayerYou');
+    if (DOM.labelInputPlayers[1]) DOM.labelInputPlayers[1].textContent = t('labelBot1');
+    if (DOM.labelInputPlayers[2]) DOM.labelInputPlayers[2].textContent = t('labelBot2');
+    if (DOM.labelInputPlayers[3]) DOM.labelInputPlayers[3].textContent = t('labelBot3');
+
+    if (DOM.inputPlayers[0]) DOM.inputPlayers[0].placeholder = t('youPlayer1');
+    if (DOM.inputPlayers[1]) DOM.inputPlayers[1].placeholder = t('bot1');
+    if (DOM.inputPlayers[2]) DOM.inputPlayers[2].placeholder = t('bot2');
+    if (DOM.inputPlayers[3]) DOM.inputPlayers[3].placeholder = t('bot3');
   } else {
     DOM.singlePlayerOptions.style.display = 'none';
+
+    if (DOM.labelInputPlayers[0]) DOM.labelInputPlayers[0].textContent = t('labelPlayerYou');
+    if (DOM.labelInputPlayers[1]) DOM.labelInputPlayers[1].textContent = t('labelPlayer2');
+    if (DOM.labelInputPlayers[2]) DOM.labelInputPlayers[2].textContent = t('labelPlayer3');
+    if (DOM.labelInputPlayers[3]) DOM.labelInputPlayers[3].textContent = t('labelPlayer4');
+
+    if (DOM.inputPlayers[0]) DOM.inputPlayers[0].placeholder = t('player1');
+    if (DOM.inputPlayers[1]) DOM.inputPlayers[1].placeholder = t('player2');
+    if (DOM.inputPlayers[2]) DOM.inputPlayers[2].placeholder = t('player3');
+    if (DOM.inputPlayers[3]) DOM.inputPlayers[3].placeholder = t('player4');
   }
 }
 
@@ -77,6 +98,8 @@ export function applyTranslations() {
   if (modeOptPass) modeOptPass.textContent = t('modeOptionPass');
   const targetRoundsLbl = document.querySelector('label[for="select-rounds"]');
   if (targetRoundsLbl) targetRoundsLbl.textContent = t('targetRoundsLabel');
+  if (DOM.labelPlayerNamesHeading) DOM.labelPlayerNamesHeading.textContent = t('playerNamesHeading');
+  updateSinglePlayerOptionsVisibility();
   const r5 = document.querySelector('#select-rounds option[value="5"]');
   if (r5) r5.textContent = t('round5');
   const r10 = document.querySelector('#select-rounds option[value="10"]');

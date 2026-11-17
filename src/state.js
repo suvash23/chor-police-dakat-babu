@@ -10,6 +10,10 @@ export const state = {
   chorPoints: 0, // 0 or 400
   alwaysPolice: false, // Single player: Player 1 is always police
   hideBabu: false, // Single player: Don't reveal Babu chit during announcement
+  customNames: {
+    single: ['', '', '', ''],
+    pass: ['', '', '', '']
+  },
   players: [
     { id: 0, name: 'You (Player 1)', avatar: '🧑‍🎓', isBot: false, totalScore: 0 },
     { id: 1, name: 'Bot 1', avatar: '🤖', isBot: true, totalScore: 0 },

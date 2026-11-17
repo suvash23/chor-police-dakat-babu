@@ -51,12 +51,24 @@ function setupEventListeners() {
     DOM.toggleChorPts.checked = state.chorPoints === 400;
     DOM.toggleAlwaysPolice.checked = state.alwaysPolice;
     DOM.toggleHideBabu.checked = state.hideBabu;
+    
+    // Populate current custom names into inputs
+    const names = state.customNames[state.mode] || ['', '', '', ''];
+    DOM.inputPlayers.forEach((inp, idx) => {
+      if (inp) inp.value = names[idx] || '';
+    });
+
     updateChorToggleLabel();
     updateSinglePlayerOptionsVisibility();
     DOM.modalSettings.classList.remove('hidden');
   });
 
   DOM.selectMode.addEventListener('change', () => {
+    const selectedMode = DOM.selectMode.value;
+    const names = state.customNames[selectedMode] || ['', '', '', ''];
+    DOM.inputPlayers.forEach((inp, idx) => {
+      if (inp) inp.value = names[idx] || '';
+    });
     updateSinglePlayerOptionsVisibility();
   });
 
@@ -80,6 +92,14 @@ function setupEventListeners() {
     state.chorPoints = DOM.toggleChorPts.checked ? 400 : 0;
     state.alwaysPolice = (state.mode === 'single') ? DOM.toggleAlwaysPolice.checked : false;
     state.hideBabu = (state.mode === 'single') ? DOM.toggleHideBabu.checked : false;
+
+    // Save customized player names
+    const updatedNames = DOM.inputPlayers.map(inp => inp ? inp.value.trim() : '');
+    state.customNames[state.mode] = updatedNames;
+    try {
+      localStorage.setItem('cpdb_custom_names', JSON.stringify(state.customNames));
+    } catch (e) {}
+
     DOM.modalSettings.classList.add('hidden');
     applySettings(true);
   });
@@ -124,6 +144,16 @@ function initGame() {
   try {
     const savedLang = localStorage.getItem('cpdb_lang');
     if (savedLang === 'en' || savedLang === 'bn') state.lang = savedLang;
+  } catch (e) {}
+
+  try {
+    const savedNames = localStorage.getItem('cpdb_custom_names');
+    if (savedNames) {
+      const parsed = JSON.parse(savedNames);
+      if (parsed && typeof parsed === 'object') {
+        state.customNames = Object.assign(state.customNames, parsed);
+      }
+    }
   } catch (e) {}
 
   setupEventListeners();

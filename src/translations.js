@@ -87,6 +87,14 @@ export const TRANSLATIONS = {
       // --- Settings modal ---
       settingsTitle:      { en: '⚙️ Game Settings',      bn: '⚙️ খেলার সেটিংস' },
       gameModeLabel:      { en: 'Game Mode:',             bn: 'খেলার ধরন:' },
+      playerNamesHeading: { en: '👥 Player Names:',       bn: '👥 খেলোয়াড়দের নাম:' },
+      labelPlayerYou:     { en: 'Player 1 (You):',        bn: 'খেলোয়াড় ১ (আপনি):' },
+      labelPlayer2:       { en: 'Player 2:',              bn: 'খেলোয়াড় ২:' },
+      labelPlayer3:       { en: 'Player 3:',              bn: 'খেলোয়াড় ৩:' },
+      labelPlayer4:       { en: 'Player 4:',              bn: 'খেলোয়াড় ৪:' },
+      labelBot1:          { en: 'Bot 1:',                 bn: 'বট ১:' },
+      labelBot2:          { en: 'Bot 2:',                 bn: 'বট ২:' },
+      labelBot3:          { en: 'Bot 3:',                 bn: 'বট ৩:' },
       modeOptionSingle:   { en: 'Single-Player (vs 3 Bots)', bn: 'একক খেলোয়াড় (৩ বটের বিরুদ্ধে)' },
       modeOptionPass:     { en: 'Pass-and-Play (4 Human Players)', bn: 'পাস-অ্যান্ড-প্লে (৪ জন মানুষ)' },
       targetRoundsLabel:  { en: 'Target Rounds:',        bn: 'মোট রাউন্ড:' },
@@ -159,12 +167,6 @@ export const TRANSLATIONS = {
       chorTarget:         { en: 'Chor (চোর)',              bn: 'চোর' },
       dakatTarget:        { en: 'Dakat (ডাকাত)',           bn: 'ডাকাত' },
     };
-
-    function t(key) {
-      const entry = TRANSLATIONS[key];
-      if (!entry) return key;
-      return entry[state.lang] || entry['en'] || key;
-    }
 
 export function t(key, lang = 'en') {
   const entry = TRANSLATIONS[key];

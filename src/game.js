@@ -414,20 +414,23 @@ export function showFinalWinnerModal() {
 export function applySettings(shouldReset = true) {
   ROLES.CHOR.points = state.chorPoints;
 
-  if (state.mode === 'single') {
+  const mode = state.mode;
+  const custom = state.customNames[mode] || ['', '', '', ''];
+
+  if (mode === 'single') {
     state.players = [
-      { id: 0, name: t('youPlayer1'), avatar: '🧑‍🎓', isBot: false, totalScore: 0 },
-      { id: 1, name: t('bot1'), avatar: '🤖', isBot: true, totalScore: 0 },
-      { id: 2, name: t('bot2'), avatar: '🤖', isBot: true, totalScore: 0 },
-      { id: 3, name: t('bot3'), avatar: '🤖', isBot: true, totalScore: 0 }
+      { id: 0, name: custom[0] || t('youPlayer1'), avatar: '🧑‍🎓', isBot: false, totalScore: 0 },
+      { id: 1, name: custom[1] || t('bot1'), avatar: '🤖', isBot: true, totalScore: 0 },
+      { id: 2, name: custom[2] || t('bot2'), avatar: '🤖', isBot: true, totalScore: 0 },
+      { id: 3, name: custom[3] || t('bot3'), avatar: '🤖', isBot: true, totalScore: 0 }
     ];
     DOM.labelMode.textContent = t('singlePlayerMode');
   } else {
     state.players = [
-      { id: 0, name: t('player1'), avatar: '🧑‍💼', isBot: false, totalScore: 0 },
-      { id: 1, name: t('player2'), avatar: '👩‍💼', isBot: false, totalScore: 0 },
-      { id: 2, name: t('player3'), avatar: '🧑‍🎓', isBot: false, totalScore: 0 },
-      { id: 3, name: t('player4'), avatar: '👩‍🏫', isBot: false, totalScore: 0 }
+      { id: 0, name: custom[0] || t('player1'), avatar: '🧑‍💼', isBot: false, totalScore: 0 },
+      { id: 1, name: custom[1] || t('player2'), avatar: '👩‍💼', isBot: false, totalScore: 0 },
+      { id: 2, name: custom[2] || t('player3'), avatar: '🧑‍🎓', isBot: false, totalScore: 0 },
+      { id: 3, name: custom[3] || t('player4'), avatar: '👩‍🏫', isBot: false, totalScore: 0 }
     ];
     DOM.labelMode.textContent = t('passPlayMode');
   }

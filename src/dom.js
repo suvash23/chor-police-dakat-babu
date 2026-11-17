@@ -76,6 +76,20 @@ export const DOM = {
 
       modalSettings: document.getElementById('modal-settings'),
       selectMode: document.getElementById('select-mode'),
+      playerNamesGroup: document.getElementById('player-names-group'),
+      labelPlayerNamesHeading: document.getElementById('label-player-names-heading'),
+      inputPlayers: [
+        document.getElementById('input-player-0'),
+        document.getElementById('input-player-1'),
+        document.getElementById('input-player-2'),
+        document.getElementById('input-player-3')
+      ],
+      labelInputPlayers: [
+        document.getElementById('label-input-p0'),
+        document.getElementById('label-input-p1'),
+        document.getElementById('label-input-p2'),
+        document.getElementById('label-input-p3')
+      ],
       selectRounds: document.getElementById('select-rounds'),
       toggleChorPts: document.getElementById('toggle-chor-pts'),
       labelChorPts: document.getElementById('label-chor-pts'),
