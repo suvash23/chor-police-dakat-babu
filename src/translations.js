@@ -175,7 +175,7 @@ export const TRANSLATIONS = {
       createRoomTab:      { en: 'Create Room',            bn: 'নতুন রুম খুলুন' },
       joinRoomTab:        { en: 'Join Room',              bn: 'রুমে প্রবেশ করুন' },
       yourNameLabel:      { en: 'Your Name:',             bn: 'আপনার নাম:' },
-      roomCodeLabel:      { en: 'Room Code (4 Letters):', bn: 'রুম কোড (৪ অক্ষর):' },
+      roomCodeLabel:      { en: 'Room Code:',             bn: 'রুম কোড:' },
       btnCreateRoomAction:{ en: '✨ Create Room',          bn: '✨ রুম তৈরি করুন' },
       btnJoinRoomAction:  { en: '🚀 Join Room',            bn: '🚀 প্রবেশ করুন' },
       roomCreatedMsg:     { en: 'Share this Room Code with 3 friends:', bn: 'এই রুম কোডটি ৩ জন বন্ধুর সাথে শেয়ার করুন:' },

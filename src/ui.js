@@ -79,6 +79,8 @@ export function applyTranslations() {
   const rulesBtn = document.getElementById('btn-rules');
   if (rulesBtn) rulesBtn.textContent = t('rules');
   if (DOM.btnOnlineLobby) DOM.btnOnlineLobby.textContent = t('btnOnlineLobby');
+  const roomCodeLabelEl = document.getElementById('label-online-room-code');
+  if (roomCodeLabelEl) roomCodeLabelEl.textContent = t('roomCodeLabel');
   const settingsBtn = document.getElementById('btn-settings');
   if (settingsBtn) settingsBtn.textContent = t('settings');
   const resetBtn = document.getElementById('btn-reset-game');

@@ -65,11 +65,17 @@ export async function createOnlineRoom(hostName, targetRounds = 5) {
 }
 
 export async function joinOnlineRoom(roomCode, playerName) {
-  const code = roomCode.trim().toUpperCase();
+  let code = roomCode.trim().toUpperCase();
+  // If user pasted without dash (e.g. GACY6998) or with spaces, auto-format to GACY-6998
+  code = code.replace(/\s+/g, '');
+  if (!code.includes('-') && code.length === 8) {
+    code = `${code.slice(0, 4)}-${code.slice(4)}`;
+  }
+
   const roomSnapshot = await get(ref(db, `rooms/${code}`));
 
   if (!roomSnapshot.exists()) {
-    throw new Error('Room code not found! Please verify the code.');
+    throw new Error(`Room code "${code}" not found! Please verify the code.`);
   }
 
   const room = roomSnapshot.val();
