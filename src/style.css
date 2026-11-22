@@ -821,8 +821,50 @@
       padding: 16px;
     }
 
+    .hidden,
     .overlay.hidden {
-      display: none;
+      display: none !important;
+    }
+
+    /* Online Multiplayer Tab Bar */
+    .online-tab-bar {
+      display: flex;
+      gap: 0;
+      margin-bottom: 16px;
+      border-bottom: 3px solid var(--ink-dark);
+    }
+
+    .online-tab {
+      flex: 1;
+      background: #f0ebd9;
+      border: 2px solid var(--ink-dark);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      font-family: var(--font-hand);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink-pencil);
+      padding: 8px 10px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      margin-right: 4px;
+    }
+
+    .online-tab:last-child {
+      margin-right: 0;
+    }
+
+    .online-tab:hover {
+      background: #fdf0d5;
+      color: var(--ink-dark);
+    }
+
+    .online-tab.active {
+      background: var(--paper-bg);
+      color: var(--ink-dark);
+      border-bottom: 3px solid var(--paper-bg);
+      margin-bottom: -3px;
+      font-size: 1.1rem;
     }
 
     .modal-card {
@@ -834,6 +876,8 @@
       padding: 24px 30px;
       width: 100%;
       max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
       box-shadow: 0 15px 40px rgba(0,0,0,0.5), 6px 6px 0 var(--ink-dark);
       position: relative;
       text-align: center;

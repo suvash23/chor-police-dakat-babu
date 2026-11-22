@@ -176,15 +176,15 @@ function setupEventListeners() {
 
   if (DOM.tabCreateRoom && DOM.tabJoinRoom) {
     DOM.tabCreateRoom.addEventListener('click', () => {
-      DOM.tabCreateRoom.classList.add('primary');
-      DOM.tabJoinRoom.classList.remove('primary');
+      DOM.tabCreateRoom.classList.add('active');
+      DOM.tabJoinRoom.classList.remove('active');
       DOM.panelCreateRoom.classList.remove('hidden');
       DOM.panelJoinRoom.classList.add('hidden');
     });
 
     DOM.tabJoinRoom.addEventListener('click', () => {
-      DOM.tabJoinRoom.classList.add('primary');
-      DOM.tabCreateRoom.classList.remove('primary');
+      DOM.tabJoinRoom.classList.add('active');
+      DOM.tabCreateRoom.classList.remove('active');
       DOM.panelJoinRoom.classList.remove('hidden');
       DOM.panelCreateRoom.classList.add('hidden');
     });
