@@ -1,4 +1,4 @@
-const CACHE_NAME = 'chor-police-v5';
+const CACHE_NAME = 'chor-police-v6';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',

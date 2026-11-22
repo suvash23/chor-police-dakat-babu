@@ -9,6 +9,12 @@ import { generateRoomCode } from './utils.js';
 
 export { generateRoomCode };
 
+let activeRoomRef = null;
+let activePlayersRef = null;
+let activeGameRef = null;
+let activeChatRef = null;
+let isApplyingRemoteUpdate = false;
+
 export async function createOnlineRoom(hostName, targetRounds = 5) {
   const roomCode = generateRoomCode();
   state.multiplayer.isOnline = true;
