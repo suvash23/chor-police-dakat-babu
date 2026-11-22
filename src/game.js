@@ -1,14 +1,14 @@
 // Core Game Flow Logic
-import { state, translate as t } from './state.js';
-import { DOM } from './dom.js';
-import { ROLES } from './constants.js';
-import { sound } from './audio.js';
+import { state, translate as t } from './state.js?v=1.1.0';
+import { DOM } from './dom.js?v=1.1.0';
+import { ROLES } from './constants.js?v=1.1.0';
+import { sound } from './audio.js?v=1.1.0';
 import {
   renderChitBackContent,
   showFloatingPts,
   updateScoreboardUI,
   launchConfetti
-} from './ui.js';
+} from './ui.js?v=1.1.0';
 
 export function resetMatch() {
   state.currentRound = 1;
@@ -50,7 +50,7 @@ export function handleMainActionButton() {
         if (state.currentRoundState.step === 'ROUND_OVER') {
           state.currentRound++;
         }
-        import('./multiplayer.js').then(m => m.broadcastHostStartRound());
+        import('./multiplayer.js?v=1.1.0').then(m => m.broadcastHostStartRound());
       }
     }
     return;
@@ -272,7 +272,7 @@ export function handleSuspectSlotClick(clickedPlayerIdx) {
 
     const suspects = [state.currentRoundState.dakatPlayerId, state.currentRoundState.chorPlayerId];
     if (suspects.includes(clickedPlayerIdx)) {
-      import('./multiplayer.js').then(m => m.broadcastPoliceGuess(clickedPlayerIdx));
+      import('./multiplayer.js?v=1.1.0').then(m => m.broadcastPoliceGuess(clickedPlayerIdx));
     }
     return;
   }

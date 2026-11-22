@@ -1,14 +1,14 @@
 // Main Application Entry Point
-import { state, translate as t } from './state.js';
-import { DOM } from './dom.js';
-import { sound } from './audio.js';
+import { state, translate as t } from './state.js?v=1.1.0';
+import { DOM } from './dom.js?v=1.1.0';
+import { sound } from './audio.js?v=1.1.0';
 import {
   setTheme,
   cycleTheme,
   applyTranslations,
   updateChorToggleLabel,
   updateSinglePlayerOptionsVisibility
-} from './ui.js';
+} from './ui.js?v=1.1.0';
 import {
   applySettings,
   resetMatch,
@@ -16,15 +16,15 @@ import {
   showPassPeekChit,
   handlePassNextPlayer,
   handleSuspectSlotClick
-} from './game.js';
-import { initPWA } from './pwa.js';
+} from './game.js?v=1.1.0';
+import { initPWA } from './pwa.js?v=1.1.0';
 import {
   createOnlineRoom,
   joinOnlineRoom,
   leaveOnlineRoom,
   broadcastHostStartRound,
   sendChatMessage
-} from './multiplayer.js';
+} from './multiplayer.js?v=1.1.0';
 
 function setupEventListeners() {
   DOM.btnThemeSwitcher.addEventListener('click', () => {

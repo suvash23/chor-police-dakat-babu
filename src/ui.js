@@ -1,7 +1,7 @@
 // UI Rendering and Visual Helpers
-import { state, translate as t } from './state.js';
-import { DOM } from './dom.js';
-import { THEMES } from './constants.js';
+import { state, translate as t } from './state.js?v=1.1.0';
+import { DOM } from './dom.js?v=1.1.0';
+import { THEMES } from './constants.js?v=1.1.0';
 
 export function setTheme(themeId) {
   state.theme = themeId;

@@ -1,5 +1,5 @@
 // Live Game State Management
-import { t } from './translations.js';
+import { t } from './translations.js?v=1.1.0';
 
 export const state = {
   mode: 'single', // 'single' or 'pass'

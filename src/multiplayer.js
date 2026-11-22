@@ -1,11 +1,11 @@
 // Online Multiplayer & Real-Time Sync via Firebase Realtime Database
-import { state, translate as t } from './state.js';
-import { DOM } from './dom.js';
-import { db, ref, set, get, push, onValue, off, update, remove, onDisconnect, serverTimestamp } from './firebase.js';
-import { renderChitBackContent, showFloatingPts, updateScoreboardUI, launchConfetti } from './ui.js';
-import { sound } from './audio.js';
-import { ROLES } from './constants.js';
-import { generateRoomCode } from './utils.js';
+import { state, translate as t } from './state.js?v=1.1.0';
+import { DOM } from './dom.js?v=1.1.0';
+import { db, ref, set, get, push, onValue, off, update, remove, onDisconnect, serverTimestamp } from './firebase.js?v=1.1.0';
+import { renderChitBackContent, showFloatingPts, updateScoreboardUI, launchConfetti } from './ui.js?v=1.1.0';
+import { sound } from './audio.js?v=1.1.0';
+import { ROLES } from './constants.js?v=1.1.0';
+import { generateRoomCode } from './utils.js?v=1.1.0';
 
 export { generateRoomCode };
 
