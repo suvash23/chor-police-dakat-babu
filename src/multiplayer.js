@@ -198,6 +198,8 @@ export async function leaveOnlineRoom() {
   DOM.panelJoinRoom.classList.add('hidden');
   if (DOM.tabsOnlineRoom) DOM.tabsOnlineRoom.classList.remove('hidden');
   DOM.btnLeaveOnlineRoom.classList.add('hidden');
+  if (DOM.chatWidget) DOM.chatWidget.classList.add('hidden');
+  if (DOM.chatWindow) DOM.chatWindow.classList.add('hidden');
 }
 
 export function renderLobbyPlayerList(players) {

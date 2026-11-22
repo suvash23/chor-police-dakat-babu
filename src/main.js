@@ -209,6 +209,7 @@ function setupEventListeners() {
         DOM.hostStartActions.classList.remove('hidden');
         DOM.guestWaitingActions.classList.add('hidden');
         DOM.labelMode.textContent = `🌐 Room: ${code}`;
+        if (DOM.chatWidget) DOM.chatWidget.classList.remove('hidden');
       } catch (err) {
         alert('Failed to create room: ' + err.message);
       } finally {
@@ -242,6 +243,7 @@ function setupEventListeners() {
         DOM.hostStartActions.classList.add('hidden');
         DOM.guestWaitingActions.classList.remove('hidden');
         DOM.labelMode.textContent = `🌐 Room: ${code}`;
+        if (DOM.chatWidget) DOM.chatWidget.classList.remove('hidden');
       } catch (err) {
         alert('Could not join room: ' + err.message);
       } finally {
