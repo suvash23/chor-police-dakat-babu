@@ -196,6 +196,7 @@ export async function leaveOnlineRoom() {
   DOM.panelActiveRoom.classList.add('hidden');
   DOM.panelCreateRoom.classList.remove('hidden');
   DOM.panelJoinRoom.classList.add('hidden');
+  if (DOM.tabsOnlineRoom) DOM.tabsOnlineRoom.classList.remove('hidden');
   DOM.btnLeaveOnlineRoom.classList.add('hidden');
 }
 

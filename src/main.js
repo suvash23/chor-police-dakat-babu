@@ -143,6 +143,27 @@ function setupEventListeners() {
   // --- ONLINE MULTIPLAYER LOBBY EVENT LISTENERS ---
   if (DOM.btnOnlineLobby) {
     DOM.btnOnlineLobby.addEventListener('click', () => {
+      // Pre-fill user name from state/localStorage
+      const defaultName = state.customNames.single[0] || state.customNames.pass[0] || '';
+      if (DOM.inputOnlineHostName && !DOM.inputOnlineHostName.value) {
+        DOM.inputOnlineHostName.value = defaultName;
+      }
+      if (DOM.inputOnlineJoinName && !DOM.inputOnlineJoinName.value) {
+        DOM.inputOnlineJoinName.value = defaultName;
+      }
+
+      // If already in an active room, show active room view; otherwise show tabs
+      if (state.multiplayer && state.multiplayer.isOnline && state.multiplayer.roomCode) {
+        DOM.panelActiveRoom.classList.remove('hidden');
+        DOM.panelCreateRoom.classList.add('hidden');
+        DOM.panelJoinRoom.classList.add('hidden');
+        if (DOM.tabsOnlineRoom) DOM.tabsOnlineRoom.classList.add('hidden');
+      } else {
+        DOM.panelActiveRoom.classList.add('hidden');
+        if (DOM.tabsOnlineRoom) DOM.tabsOnlineRoom.classList.remove('hidden');
+        DOM.tabCreateRoom.click();
+      }
+
       DOM.modalOnlineLobby.classList.remove('hidden');
     });
   }
@@ -180,9 +201,13 @@ function setupEventListeners() {
       try {
         const code = await createOnlineRoom(name, rounds);
         DOM.displayRoomCode.textContent = code;
+        if (DOM.tabsOnlineRoom) DOM.tabsOnlineRoom.classList.add('hidden');
         DOM.panelCreateRoom.classList.add('hidden');
+        DOM.panelJoinRoom.classList.add('hidden');
         DOM.panelActiveRoom.classList.remove('hidden');
         DOM.btnLeaveOnlineRoom.classList.remove('hidden');
+        DOM.hostStartActions.classList.remove('hidden');
+        DOM.guestWaitingActions.classList.add('hidden');
         DOM.labelMode.textContent = `🌐 Room: ${code}`;
       } catch (err) {
         alert('Failed to create room: ' + err.message);
@@ -209,6 +234,8 @@ function setupEventListeners() {
       try {
         await joinOnlineRoom(code, name);
         DOM.displayRoomCode.textContent = code;
+        if (DOM.tabsOnlineRoom) DOM.tabsOnlineRoom.classList.add('hidden');
+        DOM.panelCreateRoom.classList.add('hidden');
         DOM.panelJoinRoom.classList.add('hidden');
         DOM.panelActiveRoom.classList.remove('hidden');
         DOM.btnLeaveOnlineRoom.classList.remove('hidden');

@@ -122,6 +122,7 @@ export const DOM = {
       // Online Multiplayer Lobby
       btnOnlineLobby: document.getElementById('btn-online-lobby'),
       modalOnlineLobby: document.getElementById('modal-online-lobby'),
+      tabsOnlineRoom: document.getElementById('tabs-online-room'),
       tabCreateRoom: document.getElementById('tab-create-room'),
       tabJoinRoom: document.getElementById('tab-join-room'),
       panelCreateRoom: document.getElementById('panel-create-room'),
