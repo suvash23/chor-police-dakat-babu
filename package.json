@@ -1,0 +1,12 @@
+{
+  "name": "chor-police-dakat-babu",
+  "version": "1.1.0",
+  "description": "Traditional Bengali Folded Chit Guessing Game • চোর পুলিশ ডাকাত বাবু",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "keywords": ["game", "bengali", "chor-police", "pwa", "multiplayer"],
+  "author": "Suvash",
+  "license": "MIT"
+}

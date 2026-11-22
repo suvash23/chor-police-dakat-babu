@@ -5,23 +5,9 @@ import { db, ref, set, get, push, onValue, off, update, remove, onDisconnect, se
 import { renderChitBackContent, showFloatingPts, updateScoreboardUI, launchConfetti } from './ui.js';
 import { sound } from './audio.js';
 import { ROLES } from './constants.js';
+import { generateRoomCode } from './utils.js';
 
-let activeRoomRef = null;
-let activePlayersRef = null;
-let activeGameRef = null;
-let activeChatRef = null;
-let isApplyingRemoteUpdate = false;
-
-// Generate random 4-letter room code (e.g., CHOR-3829)
-export function generateRoomCode() {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-  let rand = '';
-  for (let i = 0; i < 4; i++) {
-    rand += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  const digits = Math.floor(1000 + Math.random() * 9000);
-  return `${rand}-${digits}`;
-}
+export { generateRoomCode };
 
 export async function createOnlineRoom(hostName, targetRounds = 5) {
   const roomCode = generateRoomCode();
