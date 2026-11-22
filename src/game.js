@@ -44,6 +44,18 @@ export function prepareNewRoundUI() {
 export function handleMainActionButton() {
   sound.init();
 
+  if (state.multiplayer && state.multiplayer.isOnline) {
+    if (state.multiplayer.isHost) {
+      if (state.currentRoundState.step === 'IDLE' || state.currentRoundState.step === 'ROUND_OVER') {
+        if (state.currentRoundState.step === 'ROUND_OVER') {
+          state.currentRound++;
+        }
+        import('./multiplayer.js').then(m => m.broadcastHostStartRound());
+      }
+    }
+    return;
+  }
+
   if (state.currentRoundState.step === 'IDLE') {
     startShuffleAndDeal();
   } else if (state.currentRoundState.step === 'ROUND_OVER') {
@@ -253,6 +265,18 @@ export function setupGuessingPhase() {
 }
 
 export function handleSuspectSlotClick(clickedPlayerIdx) {
+  if (state.multiplayer && state.multiplayer.isOnline) {
+    if (state.currentRoundState.step !== 'BABU_ANNOUNCED' && state.currentRoundState.step !== 'GUESSING') return;
+    const policeIdx = state.currentRoundState.policePlayerId;
+    if (policeIdx !== state.multiplayer.playerId) return; // Only real Police can click
+
+    const suspects = [state.currentRoundState.dakatPlayerId, state.currentRoundState.chorPlayerId];
+    if (suspects.includes(clickedPlayerIdx)) {
+      import('./multiplayer.js').then(m => m.broadcastPoliceGuess(clickedPlayerIdx));
+    }
+    return;
+  }
+
   if (state.currentRoundState.step !== 'GUESSING') return;
 
   const policeIdx = state.currentRoundState.policePlayerId;

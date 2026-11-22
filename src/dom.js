@@ -117,6 +117,40 @@ export const DOM = {
       modalWinner: document.getElementById('modal-winner'),
       winnerHeadline: document.getElementById('winner-headline'),
       winnerRankingsList: document.getElementById('winner-rankings-list'),
-      btnWinnerReplay: document.getElementById('btn-winner-replay')
+      btnWinnerReplay: document.getElementById('btn-winner-replay'),
+
+      // Online Multiplayer Lobby
+      btnOnlineLobby: document.getElementById('btn-online-lobby'),
+      modalOnlineLobby: document.getElementById('modal-online-lobby'),
+      tabCreateRoom: document.getElementById('tab-create-room'),
+      tabJoinRoom: document.getElementById('tab-join-room'),
+      panelCreateRoom: document.getElementById('panel-create-room'),
+      panelJoinRoom: document.getElementById('panel-join-room'),
+      panelActiveRoom: document.getElementById('panel-active-room'),
+      inputOnlineHostName: document.getElementById('input-online-host-name'),
+      selectOnlineRounds: document.getElementById('select-online-rounds'),
+      btnSubmitCreateRoom: document.getElementById('btn-submit-create-room'),
+      inputOnlineJoinName: document.getElementById('input-online-join-name'),
+      inputOnlineRoomCode: document.getElementById('input-online-room-code'),
+      btnSubmitJoinRoom: document.getElementById('btn-submit-join-room'),
+      displayRoomCode: document.getElementById('display-room-code'),
+      countConnectedPlayers: document.getElementById('count-connected-players'),
+      listOnlinePlayers: document.getElementById('list-online-players'),
+      hostStartActions: document.getElementById('host-start-actions'),
+      btnHostStartGame: document.getElementById('btn-host-start-game'),
+      guestWaitingActions: document.getElementById('guest-waiting-actions'),
+      btnLeaveOnlineRoom: document.getElementById('btn-leave-online-room'),
+      btnCloseOnlineLobby: document.getElementById('btn-close-online-lobby'),
+
+      // Team Chat Drawer
+      chatWidget: document.getElementById('chat-widget'),
+      btnToggleChat: document.getElementById('btn-toggle-chat'),
+      chatUnreadBadge: document.getElementById('chat-unread-badge'),
+      chatWindow: document.getElementById('chat-window'),
+      btnCloseChat: document.getElementById('btn-close-chat'),
+      chatMessagesList: document.getElementById('chat-messages-list'),
+      chatForm: document.getElementById('chat-form'),
+      inputChatMessage: document.getElementById('input-chat-message'),
+      chatQuickEmojis: document.querySelectorAll('.chat-quick-emoji')
     };
 

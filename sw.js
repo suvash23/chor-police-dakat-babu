@@ -1,4 +1,4 @@
-const CACHE_NAME = 'chor-police-v4';
+const CACHE_NAME = 'chor-police-v5';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -13,6 +13,8 @@ const ASSETS_TO_CACHE = [
   '/src/audio.js',
   '/src/translations.js',
   '/src/pwa.js',
+  '/src/firebase.js',
+  '/src/multiplayer.js',
   '/assets/logo.svg',
   '/assets/favicon.ico',
   '/assets/favicon-32x32.png',

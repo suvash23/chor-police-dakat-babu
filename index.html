@@ -67,6 +67,7 @@
           <span class="btn-icon" id="sound-icon">🔊</span> <span data-i18n="sound">Sound</span>
         </button>
         <button id="btn-rules" class="sketch-btn" data-i18n-btn="rules">📖 Rules</button>
+        <button id="btn-online-lobby" class="sketch-btn primary" title="Online Multiplayer Room">🌐 Online Room</button>
         <button id="btn-settings" class="sketch-btn" data-i18n-btn="settings">⚙️ Settings</button>
         <button id="btn-reset-game" class="sketch-btn danger" data-i18n-btn="newGame">↺ New Game</button>
       </div>
@@ -383,6 +384,122 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- MODAL: Online Multiplayer Room Lobby -->
+  <div class="overlay hidden" id="modal-online-lobby">
+    <div class="modal-card" style="max-width: 500px; text-align: left;">
+      <h2 style="text-align: center; margin-bottom: 8px;">🌐 Online Multiplayer</h2>
+      <p style="text-align: center; font-size: 1.05rem; color: var(--ink-pencil); margin-bottom: 14px;">
+        Play with 4 real friends or family across different phones or computers!
+      </p>
+
+      <!-- Tabs: Create Room / Join Room -->
+      <div style="display: flex; gap: 8px; margin-bottom: 14px; border-bottom: 2px dashed var(--ink-pencil); padding-bottom: 10px;">
+        <button id="tab-create-room" class="sketch-btn primary" style="flex: 1;">✨ Create Room</button>
+        <button id="tab-join-room" class="sketch-btn" style="flex: 1;">🚀 Join Room</button>
+      </div>
+
+      <!-- CREATE ROOM PANEL -->
+      <div id="panel-create-room">
+        <div class="form-group">
+          <label for="input-online-host-name">Your Name:</label>
+          <input type="text" id="input-online-host-name" maxlength="15" placeholder="Enter your nickname">
+        </div>
+        <div class="form-group">
+          <label for="select-online-rounds">Rounds:</label>
+          <select id="select-online-rounds">
+            <option value="5">5 Rounds</option>
+            <option value="10">10 Rounds</option>
+          </select>
+        </div>
+        <button id="btn-submit-create-room" class="sketch-btn primary" style="width: 100%; margin-top: 10px; font-size: 1.2rem; padding: 10px;">
+          ✨ Generate Room Code & Host
+        </button>
+      </div>
+
+      <!-- JOIN ROOM PANEL -->
+      <div id="panel-join-room" class="hidden">
+        <div class="form-group">
+          <label for="input-online-join-name">Your Name:</label>
+          <input type="text" id="input-online-join-name" maxlength="15" placeholder="Enter your nickname">
+        </div>
+        <div class="form-group">
+          <label for="input-online-room-code">Room Code (4 Letters):</label>
+          <input type="text" id="input-online-room-code" maxlength="8" placeholder="e.g. CHOR-4821" style="text-transform: uppercase; font-weight: bold; letter-spacing: 2px;">
+        </div>
+        <button id="btn-submit-join-room" class="sketch-btn primary" style="width: 100%; margin-top: 10px; font-size: 1.2rem; padding: 10px;">
+          🚀 Enter Game Room
+        </button>
+      </div>
+
+      <!-- ACTIVE WAITING ROOM / LOBBY (shown when room is created or joined) -->
+      <div id="panel-active-room" class="hidden">
+        <div style="background: #fffef8; border: 2px dashed var(--ink-blue); border-radius: 8px; padding: 12px; text-align: center; margin-bottom: 14px;">
+          <div style="font-size: 0.95rem; color: var(--ink-pencil);">ROOM CODE:</div>
+          <div id="display-room-code" style="font-size: 2.2rem; font-weight: 900; letter-spacing: 3px; color: var(--ink-red); cursor: pointer;" title="Click to copy">
+            CHOR-0000
+          </div>
+          <small style="color: var(--ink-green);">📋 Tap code to copy invite link</small>
+        </div>
+
+        <div style="font-weight: bold; margin-bottom: 8px;">Connected Players (<span id="count-connected-players">1</span>/4):</div>
+        <div id="list-online-players" style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px;">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <div id="host-start-actions" style="display: flex; flex-direction: column; gap: 8px;">
+          <button id="btn-host-start-game" class="sketch-btn primary" style="width: 100%; font-size: 1.2rem; padding: 10px;" disabled>
+            ⏳ Waiting for 4 Players...
+          </button>
+        </div>
+        <div id="guest-waiting-actions" class="hidden" style="text-align: center; color: var(--ink-pencil); font-style: italic;">
+          Waiting for Host to start the match...
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 14px; gap: 8px;">
+        <button id="btn-leave-online-room" class="sketch-btn danger hidden">Leave Room</button>
+        <button id="btn-close-online-lobby" class="sketch-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING TEAM CHAT DRAWER (bottom right) -->
+  <div id="chat-widget" style="position: fixed; bottom: 12px; right: 16px; z-index: 100; font-family: var(--font-hand);">
+    <!-- Chat Toggle Button -->
+    <button id="btn-toggle-chat" class="sketch-btn primary" style="box-shadow: 0 4px 12px rgba(0,0,0,0.3); border-radius: 30px; padding: 8px 16px; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
+      <span>💬 Team Chat</span>
+      <span id="chat-unread-badge" class="hidden" style="background: var(--ink-red); color: white; border-radius: 10px; font-size: 0.8rem; padding: 1px 6px; font-weight: 800;">1</span>
+    </button>
+
+    <!-- Chat Window Container -->
+    <div id="chat-window" class="hidden" style="position: absolute; bottom: 50px; right: 0; width: 320px; height: 380px; background: var(--paper-bg); border: 2.5px solid var(--ink-dark); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); display: flex; flex-direction: column; overflow: hidden;">
+      <div style="background: #fff3cd; border-bottom: 2px solid var(--ink-dark); padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: var(--ink-blue);">
+        <span>💬 Room Team Chat</span>
+        <button id="btn-close-chat" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; color: var(--ink-dark);">✕</button>
+      </div>
+      
+      <!-- Messages List -->
+      <div id="chat-messages-list" style="flex: 1; padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 0.95rem;">
+        <div style="text-align: center; color: var(--ink-pencil); font-size: 0.85rem;">Welcome to Team Chat! Chat with your friends in real-time.</div>
+      </div>
+
+      <!-- Quick Emoji Bar -->
+      <div style="display: flex; gap: 6px; padding: 4px 8px; background: rgba(0,0,0,0.03); border-top: 1px dashed var(--ink-pencil); justify-content: center;">
+        <button class="chat-quick-emoji sketch-btn" style="padding: 2px 6px; font-size: 0.9rem;">😂</button>
+        <button class="chat-quick-emoji sketch-btn" style="padding: 2px 6px; font-size: 0.9rem;">👮</button>
+        <button class="chat-quick-emoji sketch-btn" style="padding: 2px 6px; font-size: 0.9rem;">🥷</button>
+        <button class="chat-quick-emoji sketch-btn" style="padding: 2px 6px; font-size: 0.9rem;">👑</button>
+        <button class="chat-quick-emoji sketch-btn" style="padding: 2px 6px; font-size: 0.9rem;">😱</button>
+      </div>
+
+      <!-- Input Bar -->
+      <form id="chat-form" style="display: flex; gap: 4px; padding: 8px; border-top: 2px solid var(--ink-dark); background: #fff;">
+        <input type="text" id="input-chat-message" maxlength="120" placeholder="Type a message..." style="flex: 1; padding: 6px 8px; font-family: var(--font-hand); font-size: 1rem; border: 1.5px solid var(--ink-dark); border-radius: 6px;">
+        <button type="submit" class="sketch-btn primary" style="padding: 6px 12px; font-size: 1rem;">Send</button>
+      </form>
+    </div>
   </div>
 
   <script type="module" src="src/main.js"></script>

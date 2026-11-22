@@ -78,6 +78,7 @@ export function applyTranslations() {
   
   const rulesBtn = document.getElementById('btn-rules');
   if (rulesBtn) rulesBtn.textContent = t('rules');
+  if (DOM.btnOnlineLobby) DOM.btnOnlineLobby.textContent = t('btnOnlineLobby');
   const settingsBtn = document.getElementById('btn-settings');
   if (settingsBtn) settingsBtn.textContent = t('settings');
   const resetBtn = document.getElementById('btn-reset-game');

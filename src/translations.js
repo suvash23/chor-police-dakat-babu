@@ -166,6 +166,27 @@ export const TRANSLATIONS = {
       // --- Role name in target ---
       chorTarget:         { en: 'Chor (চোর)',              bn: 'চোর' },
       dakatTarget:        { en: 'Dakat (ডাকাত)',           bn: 'ডাকাত' },
+
+      // --- Multiplayer & Online Mode ---
+      onlineMode:         { en: '🌐 Online Room',         bn: '🌐 অনলাইন রুম' },
+      modeOptionOnline:   { en: 'Online Multiplayer (Room Code)', bn: 'অনলাইন মাল্টিপ্লেয়ার (রুম কোড)' },
+      btnOnlineLobby:     { en: '🌐 Online Room',         bn: '🌐 অনলাইন রুম' },
+      onlineModalTitle:   { en: '🌐 Online Multiplayer Room', bn: '🌐 অনলাইন খেলার রুম' },
+      createRoomTab:      { en: 'Create Room',            bn: 'নতুন রুম খুলুন' },
+      joinRoomTab:        { en: 'Join Room',              bn: 'রুমে প্রবেশ করুন' },
+      yourNameLabel:      { en: 'Your Name:',             bn: 'আপনার নাম:' },
+      roomCodeLabel:      { en: 'Room Code (4 Letters):', bn: 'রুম কোড (৪ অক্ষর):' },
+      btnCreateRoomAction:{ en: '✨ Create Room',          bn: '✨ রুম তৈরি করুন' },
+      btnJoinRoomAction:  { en: '🚀 Join Room',            bn: '🚀 প্রবেশ করুন' },
+      roomCreatedMsg:     { en: 'Share this Room Code with 3 friends:', bn: 'এই রুম কোডটি ৩ জন বন্ধুর সাথে শেয়ার করুন:' },
+      waitingForPlayers:  { en: 'Waiting for players to join...', bn: 'অন্যান্য খেলোয়াড়ের জন্য অপেক্ষা করছি...' },
+      btnStartOnlineGame: { en: '🎮 Start Game (4/4 Ready)', bn: '🎮 খেলা শুরু করুন (৪/৪ প্রস্তুত)' },
+      btnLeaveRoom:       { en: 'Leave Room',             bn: 'রুম ত্যাগ করুন' },
+      chatTitle:          { en: '💬 Team Chat',           bn: '💬 টিম চ্যাট' },
+      chatPlaceholder:    { en: 'Type a message...',       bn: 'বার্তা লিখুন...' },
+      chatSend:           { en: 'Send',                   bn: 'পাঠান' },
+      waitingHostStart:   { en: 'Waiting for Host to start the game...', bn: 'হোস্ট খেলা শুরু করার অপেক্ষায়...' },
+      yourPrivateRole:    { en: 'Your Secret Chit:',      bn: 'আপনার গোপন চিরকুট:' },
     };
 
 export function t(key, lang = 'en') {

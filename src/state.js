@@ -10,6 +10,15 @@ export const state = {
   chorPoints: 0, // 0 or 400
   alwaysPolice: false, // Single player: Player 1 is always police
   hideBabu: false, // Single player: Don't reveal Babu chit during announcement
+  multiplayer: {
+    isOnline: false,
+    roomCode: null,
+    playerId: null, // 0..3
+    isHost: false,
+    playerName: '',
+    connectedPlayers: [],
+    unreadCount: 0
+  },
   customNames: {
     single: ['', '', '', ''],
     pass: ['', '', '', '']

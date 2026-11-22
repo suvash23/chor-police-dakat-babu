@@ -18,6 +18,13 @@ import {
   handleSuspectSlotClick
 } from './game.js';
 import { initPWA } from './pwa.js';
+import {
+  createOnlineRoom,
+  joinOnlineRoom,
+  leaveOnlineRoom,
+  broadcastHostStartRound,
+  sendChatMessage
+} from './multiplayer.js';
 
 function setupEventListeners() {
   DOM.btnThemeSwitcher.addEventListener('click', () => {
@@ -132,6 +139,164 @@ function setupEventListeners() {
       handleSuspectSlotClick(index);
     });
   });
+
+  // --- ONLINE MULTIPLAYER LOBBY EVENT LISTENERS ---
+  if (DOM.btnOnlineLobby) {
+    DOM.btnOnlineLobby.addEventListener('click', () => {
+      DOM.modalOnlineLobby.classList.remove('hidden');
+    });
+  }
+
+  if (DOM.btnCloseOnlineLobby) {
+    DOM.btnCloseOnlineLobby.addEventListener('click', () => {
+      DOM.modalOnlineLobby.classList.add('hidden');
+    });
+  }
+
+  if (DOM.tabCreateRoom && DOM.tabJoinRoom) {
+    DOM.tabCreateRoom.addEventListener('click', () => {
+      DOM.tabCreateRoom.classList.add('primary');
+      DOM.tabJoinRoom.classList.remove('primary');
+      DOM.panelCreateRoom.classList.remove('hidden');
+      DOM.panelJoinRoom.classList.add('hidden');
+    });
+
+    DOM.tabJoinRoom.addEventListener('click', () => {
+      DOM.tabJoinRoom.classList.add('primary');
+      DOM.tabCreateRoom.classList.remove('primary');
+      DOM.panelJoinRoom.classList.remove('hidden');
+      DOM.panelCreateRoom.classList.add('hidden');
+    });
+  }
+
+  // Create room button
+  if (DOM.btnSubmitCreateRoom) {
+    DOM.btnSubmitCreateRoom.addEventListener('click', async () => {
+      const name = DOM.inputOnlineHostName.value.trim() || 'Host';
+      const rounds = parseInt(DOM.selectOnlineRounds.value, 10) || 5;
+      DOM.btnSubmitCreateRoom.disabled = true;
+      DOM.btnSubmitCreateRoom.textContent = 'Creating room...';
+
+      try {
+        const code = await createOnlineRoom(name, rounds);
+        DOM.displayRoomCode.textContent = code;
+        DOM.panelCreateRoom.classList.add('hidden');
+        DOM.panelActiveRoom.classList.remove('hidden');
+        DOM.btnLeaveOnlineRoom.classList.remove('hidden');
+        DOM.labelMode.textContent = `🌐 Room: ${code}`;
+      } catch (err) {
+        alert('Failed to create room: ' + err.message);
+      } finally {
+        DOM.btnSubmitCreateRoom.disabled = false;
+        DOM.btnSubmitCreateRoom.textContent = '✨ Generate Room Code & Host';
+      }
+    });
+  }
+
+  // Join room button
+  if (DOM.btnSubmitJoinRoom) {
+    DOM.btnSubmitJoinRoom.addEventListener('click', async () => {
+      const name = DOM.inputOnlineJoinName.value.trim() || 'Player';
+      const code = DOM.inputOnlineRoomCode.value.trim().toUpperCase();
+      if (!code) {
+        alert('Please enter a valid room code!');
+        return;
+      }
+
+      DOM.btnSubmitJoinRoom.disabled = true;
+      DOM.btnSubmitJoinRoom.textContent = 'Joining room...';
+
+      try {
+        await joinOnlineRoom(code, name);
+        DOM.displayRoomCode.textContent = code;
+        DOM.panelJoinRoom.classList.add('hidden');
+        DOM.panelActiveRoom.classList.remove('hidden');
+        DOM.btnLeaveOnlineRoom.classList.remove('hidden');
+        DOM.hostStartActions.classList.add('hidden');
+        DOM.guestWaitingActions.classList.remove('hidden');
+        DOM.labelMode.textContent = `🌐 Room: ${code}`;
+      } catch (err) {
+        alert('Could not join room: ' + err.message);
+      } finally {
+        DOM.btnSubmitJoinRoom.disabled = false;
+        DOM.btnSubmitJoinRoom.textContent = '🚀 Enter Game Room';
+      }
+    });
+  }
+
+  // Copy room code on click
+  if (DOM.displayRoomCode) {
+    DOM.displayRoomCode.addEventListener('click', () => {
+      const code = DOM.displayRoomCode.textContent.trim();
+      navigator.clipboard.writeText(code).then(() => {
+        alert(`Room Code copied: ${code}! Send it to 3 friends.`);
+      }).catch(() => {});
+    });
+  }
+
+  // Host starts game
+  if (DOM.btnHostStartGame) {
+    DOM.btnHostStartGame.addEventListener('click', async () => {
+      DOM.btnHostStartGame.disabled = true;
+      DOM.btnHostStartGame.textContent = 'Starting match...';
+      try {
+        await broadcastHostStartRound();
+        DOM.modalOnlineLobby.classList.add('hidden');
+      } catch (err) {
+        alert('Error starting match: ' + err.message);
+        DOM.btnHostStartGame.disabled = false;
+      }
+    });
+  }
+
+  // Leave room button
+  if (DOM.btnLeaveOnlineRoom) {
+    DOM.btnLeaveOnlineRoom.addEventListener('click', async () => {
+      if (confirm('Are you sure you want to leave this online room?')) {
+        await leaveOnlineRoom();
+        DOM.labelMode.textContent = '🤖 Single-Player';
+      }
+    });
+  }
+
+  // --- TEAM CHAT EVENT LISTENERS ---
+  if (DOM.btnToggleChat && DOM.chatWindow) {
+    DOM.btnToggleChat.addEventListener('click', () => {
+      const isHidden = DOM.chatWindow.classList.contains('hidden');
+      if (isHidden) {
+        DOM.chatWindow.classList.remove('hidden');
+        state.multiplayer.unreadCount = 0;
+        DOM.chatUnreadBadge.classList.add('hidden');
+        DOM.inputChatMessage.focus();
+      } else {
+        DOM.chatWindow.classList.add('hidden');
+      }
+    });
+  }
+
+  if (DOM.btnCloseChat) {
+    DOM.btnCloseChat.addEventListener('click', () => {
+      DOM.chatWindow.classList.add('hidden');
+    });
+  }
+
+  if (DOM.chatForm) {
+    DOM.chatForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const txt = DOM.inputChatMessage.value.trim();
+      if (!txt) return;
+      DOM.inputChatMessage.value = '';
+      await sendChatMessage(txt);
+    });
+  }
+
+  if (DOM.chatQuickEmojis) {
+    DOM.chatQuickEmojis.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        await sendChatMessage(btn.textContent.trim());
+      });
+    });
+  }
 }
 
 function initGame() {
