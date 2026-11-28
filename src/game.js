@@ -15,7 +15,64 @@ export function resetMatch() {
   state.roundHistory = [];
   state.players.forEach(p => p.totalScore = 0);
   updateScoreboardUI();
+  stopPoliceTimer();
   prepareNewRoundUI();
+}
+
+let policeTimerInterval = null;
+const POLICE_TIMER_SECONDS = 15;
+
+export function stopPoliceTimer() {
+  if (policeTimerInterval) {
+    clearInterval(policeTimerInterval);
+    policeTimerInterval = null;
+  }
+  if (DOM.policeTimerContainer) {
+    DOM.policeTimerContainer.classList.add('hidden');
+  }
+}
+
+export function startPoliceTimer() {
+  stopPoliceTimer();
+  if (!DOM.policeTimerContainer || !DOM.policeTimerBar || !DOM.policeTimerCount) return;
+
+  let secondsLeft = POLICE_TIMER_SECONDS;
+  DOM.policeTimerContainer.classList.remove('hidden');
+  DOM.policeTimerLabel.textContent = t('timerLabel');
+  DOM.policeTimerCount.textContent = `${secondsLeft}s`;
+  DOM.policeTimerBar.style.width = '100%';
+  DOM.policeTimerBar.classList.remove('urgent');
+
+  policeTimerInterval = setInterval(() => {
+    secondsLeft--;
+    if (secondsLeft < 0) {
+      stopPoliceTimer();
+      handlePoliceTimeout();
+      return;
+    }
+
+    DOM.policeTimerCount.textContent = `${secondsLeft}s`;
+    const pct = Math.max(0, (secondsLeft / POLICE_TIMER_SECONDS) * 100);
+    DOM.policeTimerBar.style.width = `${pct}%`;
+
+    if (secondsLeft <= 5) {
+      DOM.policeTimerBar.classList.add('urgent');
+      sound.playTick();
+    }
+  }, 1000);
+}
+
+function handlePoliceTimeout() {
+  if (state.currentRoundState.step !== 'GUESSING') return;
+
+  const targetRole = state.currentRoundState.targetSuspectRole;
+  const actualTargetId = (targetRole === 'chor') ? state.currentRoundState.chorPlayerId : state.currentRoundState.dakatPlayerId;
+  const candidates = state.currentRoundState.activeSelectableIds || state.currentRoundState.suspectPlayerIds;
+  
+  // Wrong pick: pick an innocent candidate (or the non-target) because time expired
+  const wrongCandidate = candidates.find(id => id !== actualTargetId) || candidates[0];
+  
+  executePoliceGuess(wrongCandidate, true);
 }
 
 export function prepareNewRoundUI() {
@@ -261,6 +318,7 @@ export function setupGuessingPhase() {
     } else {
       DOM.announcementSub.textContent = `${t('lookClosely')} ${targetRoleName}?`;
     }
+    startPoliceTimer();
   }
 }
 
@@ -288,7 +346,8 @@ export function handleSuspectSlotClick(clickedPlayerIdx) {
   }
 }
 
-export function executePoliceGuess(accusedPlayerIdx) {
+export function executePoliceGuess(accusedPlayerIdx, isTimeout = false) {
+  stopPoliceTimer();
   state.currentRoundState.step = 'ROUND_OVER';
   state.currentRoundState.policeGuessedPlayerId = accusedPlayerIdx;
 
@@ -381,7 +440,11 @@ export function executePoliceGuess(accusedPlayerIdx) {
     showFloatingPts(actualTargetPlayerId, `+${bonusTotal}`, true);
 
     const actualTargetName = state.players[actualTargetPlayerId].name;
-    DOM.announcementMain.innerHTML = `❌ <b>${t('wrongGuess')}</b> ${accusedName} ${t('wasNotThe')} ${targetRoleTitle}${state.lang === 'bn' ? ' ' + t('wasNotThe2') : '!'}`;
+    if (isTimeout) {
+      DOM.announcementMain.innerHTML = `⏱️ <b>${t('wrongGuess')}</b> ${t('timeUpWrong')}`;
+    } else {
+      DOM.announcementMain.innerHTML = `❌ <b>${t('wrongGuess')}</b> ${accusedName} ${t('wasNotThe')} ${targetRoleTitle}${state.lang === 'bn' ? ' ' + t('wasNotThe2') : '!'}`;
+    }
     DOM.announcementSub.innerHTML = `${actualTargetName} ${t('escaped')} <b>${t('zeropts')}</b>, ${state.lang === 'en' ? 'and ' : ''}${actualTargetName} ${t('steals')} <b>${t('pts800')}</b>`;
   }
 

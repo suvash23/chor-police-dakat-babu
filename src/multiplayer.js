@@ -6,6 +6,7 @@ import { renderChitBackContent, showFloatingPts, updateScoreboardUI, launchConfe
 import { sound } from './audio.js?v=1.1.0';
 import { ROLES } from './constants.js?v=1.1.0';
 import { generateRoomCode } from './utils.js?v=1.1.0';
+import { startPoliceTimer, stopPoliceTimer } from './game.js?v=1.1.0';
 
 export { generateRoomCode };
 
@@ -349,14 +350,17 @@ export function handleRemoteGameStateUpdate(remoteGame) {
     if (isPoliceMe) {
       DOM.btnActionMain.style.display = 'none';
       DOM.announcementSub.innerHTML = `🚨 <b>You are the Police! Click on a suspect to accuse them!</b>`;
+      startPoliceTimer();
     } else {
       DOM.btnActionMain.style.display = 'none';
       DOM.announcementSub.textContent = `Police (${policeName}) is currently choosing a suspect...`;
+      startPoliceTimer();
     }
   }
 
   // Step B: When round ends with police guess
   if (remoteGame.step === 'ROUND_OVER') {
+    stopPoliceTimer();
     // Reveal all remaining chits
     DOM.chits.forEach(chit => chit.classList.add('revealed'));
     sound.playFlip();

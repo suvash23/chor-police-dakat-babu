@@ -1,34 +1,8 @@
-const CACHE_NAME = 'chor-police-v8';
-const ASSETS_TO_CACHE = [
+const CACHE_NAME = 'chor-police-v9';
+const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/src/style.css',
-  '/src/style.css?v=1.1.0',
-  '/src/main.js',
-  '/src/main.js?v=1.1.0',
-  '/src/game.js',
-  '/src/game.js?v=1.1.0',
-  '/src/ui.js',
-  '/src/ui.js?v=1.1.0',
-  '/src/dom.js',
-  '/src/dom.js?v=1.1.0',
-  '/src/state.js',
-  '/src/state.js?v=1.1.0',
-  '/src/constants.js',
-  '/src/constants.js?v=1.1.0',
-  '/src/audio.js',
-  '/src/audio.js?v=1.1.0',
-  '/src/translations.js',
-  '/src/translations.js?v=1.1.0',
-  '/src/utils.js',
-  '/src/utils.js?v=1.1.0',
-  '/src/pwa.js',
-  '/src/pwa.js?v=1.1.0',
-  '/src/firebase.js',
-  '/src/firebase.js?v=1.1.0',
-  '/src/multiplayer.js',
-  '/src/multiplayer.js?v=1.1.0',
   '/assets/logo.svg',
   '/assets/favicon.ico',
   '/assets/favicon-32x32.png',
@@ -40,7 +14,7 @@ const ASSETS_TO_CACHE = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
+      return cache.addAll(STATIC_ASSETS);
     })
   );
   self.skipWaiting();
@@ -62,19 +36,62 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Navigation requests (opening the app from home screen or browser): fallback to root index
+  const url = new URL(event.request.url);
+
+  // Skip caching Firebase requests or cross-origin external API calls
+  if (url.origin !== location.origin) {
+    return;
+  }
+
+  // Navigation requests: Network-first, fallback to cached index.html
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      fetch(event.request).catch(() => {
-        return caches.match('/') || caches.match('/index.html');
-      })
+      fetch(event.request)
+        .then((response) => {
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match('/') || caches.match('/index.html'))
     );
     return;
   }
 
+  // Application Scripts and Styles (/src/*): Network-first with cache fallback
+  // Guarantees users always receive fresh code when online without stale module bugs
+  if (url.pathname.startsWith('/src/')) {
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseClone);
+            });
+          }
+          return networkResponse;
+        })
+        .catch(() => caches.match(event.request, { ignoreSearch: true }))
+    );
+    return;
+  }
+
+  // Static assets (images, icons, fonts): Cache-first with network fallback
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      return cachedResponse || fetch(event.request);
+    caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
+      if (cachedResponse) return cachedResponse;
+
+      return fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
+        }
+        return networkResponse;
+      });
     })
   );
 });

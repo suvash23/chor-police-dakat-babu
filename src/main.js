@@ -253,13 +253,60 @@ function setupEventListeners() {
     });
   }
 
-  // Copy room code on click
+  // Copy room code on click / button
+  const copyCodeHandler = () => {
+    const code = DOM.displayRoomCode ? DOM.displayRoomCode.textContent.trim() : '';
+    if (!code) return;
+    navigator.clipboard.writeText(code).then(() => {
+      if (DOM.shareLinkStatus) {
+        DOM.shareLinkStatus.textContent = t('codeCopied');
+        setTimeout(() => { if (DOM.shareLinkStatus) DOM.shareLinkStatus.textContent = ''; }, 3000);
+      } else {
+        alert(`Room Code copied: ${code}!`);
+      }
+    }).catch(() => {});
+  };
+
   if (DOM.displayRoomCode) {
-    DOM.displayRoomCode.addEventListener('click', () => {
-      const code = DOM.displayRoomCode.textContent.trim();
-      navigator.clipboard.writeText(code).then(() => {
-        alert(`Room Code copied: ${code}! Send it to 3 friends.`);
-      }).catch(() => {});
+    DOM.displayRoomCode.addEventListener('click', copyCodeHandler);
+  }
+  if (DOM.btnCopyRoomCode) {
+    DOM.btnCopyRoomCode.addEventListener('click', copyCodeHandler);
+  }
+
+  // Share invite link button (Web Share API with clipboard fallback)
+  if (DOM.btnShareInviteLink) {
+    DOM.btnShareInviteLink.addEventListener('click', async () => {
+      const code = DOM.displayRoomCode ? DOM.displayRoomCode.textContent.trim() : '';
+      if (!code) return;
+
+      const url = new URL(window.location.href);
+      url.searchParams.set('room', code);
+      const inviteUrl = url.toString();
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Chor Police Dakat Babu',
+            text: `Join my Chor Police game! Room Code: ${code}`,
+            url: inviteUrl
+          });
+          return;
+        } catch (e) {
+          // User dismissed or share failed, fallback to clipboard
+        }
+      }
+
+      navigator.clipboard.writeText(inviteUrl).then(() => {
+        if (DOM.shareLinkStatus) {
+          DOM.shareLinkStatus.textContent = t('linkCopied');
+          setTimeout(() => { if (DOM.shareLinkStatus) DOM.shareLinkStatus.textContent = ''; }, 3000);
+        } else {
+          alert('Invite link copied: ' + inviteUrl);
+        }
+      }).catch(() => {
+        prompt('Copy invite link:', inviteUrl);
+      });
     });
   }
 
@@ -355,6 +402,23 @@ function initGame() {
   applyTranslations();
   resetMatch();
   initPWA();
+
+  // Auto-detect invite link room parameter: ?room=XXXX-1234
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomFromUrl = urlParams.get('room');
+    if (roomFromUrl && DOM.inputOnlineRoomCode && DOM.modalOnlineLobby) {
+      DOM.inputOnlineRoomCode.value = roomFromUrl.toUpperCase();
+      // Switch to Join Room tab
+      if (DOM.tabJoinRoom && DOM.tabCreateRoom && DOM.panelJoinRoom && DOM.panelCreateRoom) {
+        DOM.tabJoinRoom.classList.add('active');
+        DOM.tabCreateRoom.classList.remove('active');
+        DOM.panelJoinRoom.classList.remove('hidden');
+        DOM.panelCreateRoom.classList.add('hidden');
+      }
+      DOM.modalOnlineLobby.classList.remove('hidden');
+    }
+  } catch (e) {}
 }
 
 window.addEventListener('DOMContentLoaded', initGame);

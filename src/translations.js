@@ -187,6 +187,12 @@ export const TRANSLATIONS = {
       chatSend:           { en: 'Send',                   bn: 'পাঠান' },
       waitingHostStart:   { en: 'Waiting for Host to start the game...', bn: 'হোস্ট খেলা শুরু করার অপেক্ষায়...' },
       yourPrivateRole:    { en: 'Your Secret Chit:',      bn: 'আপনার গোপন চিরকুট:' },
+      shareInviteLink:    { en: '🔗 Share Invite Link',   bn: '🔗 লিংক শেয়ার করুন' },
+      copyRoomCode:       { en: '📋 Copy Code',           bn: '📋 কোড কপি' },
+      linkCopied:         { en: 'Invite link copied to clipboard!', bn: 'আমন্ত্রণ লিংক কপি করা হয়েছে!' },
+      codeCopied:         { en: 'Room code copied to clipboard!', bn: 'রুম কোড কপি করা হয়েছে!' },
+      timerLabel:         { en: '⏱️ Time to Guess:',      bn: '⏱️ অনুমান করার সময়:' },
+      timeUpWrong:        { en: 'Time is up! Police took too long to choose.', bn: 'সময় শেষ! পুলিশ নির্দিষ্ট সময়ে চোর ধরতে ব্যর্থ হলো।' },
     };
 
 export function t(key, lang = 'en') {

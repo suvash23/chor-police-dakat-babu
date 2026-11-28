@@ -82,6 +82,16 @@
         <div id="announcement-sub" class="sub-announcement">
           Babu & Police will uncover their chits first.
         </div>
+        <!-- Police Guess Countdown Timer bar -->
+        <div id="police-timer-container" class="police-timer-container hidden">
+          <div class="police-timer-header">
+            <span id="police-timer-label">⏱️ Time to Guess:</span>
+            <span id="police-timer-count" class="police-timer-count">15s</span>
+          </div>
+          <div class="police-timer-bar-bg">
+            <div id="police-timer-bar" class="police-timer-bar"></div>
+          </div>
+        </div>
       </div>
       <div id="announcement-action-area">
         <button id="btn-action-main" class="sketch-btn primary">🃏 Deal & Shuffle</button>
@@ -440,7 +450,11 @@
           <div id="display-room-code" style="font-size: 2.2rem; font-weight: 900; letter-spacing: 3px; color: var(--ink-red); cursor: pointer;" title="Click to copy">
             CHOR-0000
           </div>
-          <small style="color: var(--ink-green);">📋 Tap code to copy invite link</small>
+          <div style="display: flex; gap: 8px; justify-content: center; margin-top: 8px;">
+            <button id="btn-copy-room-code" class="sketch-btn" style="font-size: 0.95rem; padding: 4px 10px;">📋 Copy Code</button>
+            <button id="btn-share-invite-link" class="sketch-btn primary" style="font-size: 0.95rem; padding: 4px 10px;">🔗 Share Invite Link</button>
+          </div>
+          <small id="share-link-status" style="display: block; margin-top: 4px; color: var(--ink-green); font-size: 0.85rem;"></small>
         </div>
 
         <div style="font-weight: bold; margin-bottom: 8px;">Connected Players (<span id="count-connected-players">1</span>/4):</div>
